@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace WindowsFormsManualTest.Properties
+namespace OpenCoverRunnerForm.Properties
 {
 
 

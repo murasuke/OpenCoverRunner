@@ -8,11 +8,11 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace WindowsFormsManualTest
+namespace ManualTestSample
 {
-    public partial class Form1 : Form
+    public partial class ManualTestSample : Form
     {
-        public Form1()
+        public ManualTestSample()
         {
             InitializeComponent();
         }
@@ -31,6 +31,18 @@ namespace WindowsFormsManualTest
 
             return a / b;
         }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            numericUpDown6.Value = Div(numericUpDown5.Value, numericUpDown4.Value);
+        }
+
+        public decimal Mul(decimal a, decimal b)
+        {
+            var result = a * b;
+            return result;
+        }
+
 
     }
 }
