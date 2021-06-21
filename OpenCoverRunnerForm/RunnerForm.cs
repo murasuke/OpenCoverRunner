@@ -51,6 +51,7 @@ namespace OpenCoverRunnerForm
                 }
             }
 
+            ConfigurationManager.RefreshSection("appSettings");
             txtOpernCoverPath.Text = OpenCoverPath;
             txtReportGenerator.Text = ReportGeneratorPath;
         }
@@ -139,7 +140,6 @@ namespace OpenCoverRunnerForm
                     }
                 }
             }
-
         }
 
         private void txtTestTargetExePath_DragEnter(object sender, DragEventArgs e)
@@ -163,7 +163,50 @@ namespace OpenCoverRunnerForm
 
         private void btnClearOutput_Click(object sender, EventArgs e)
         {
+            if( Directory.Exists( txtOutputReportPath.Text))
+            {
+                if( MessageBox.Show("確認","出力先をクリアしますか？", MessageBoxButtons.OKCancel) == DialogResult.OK)
+                {
+                    Directory.Delete(txtOutputReportPath.Text, true);
+                }
+               
+            }
+        }
 
+        private void btnOpernCoverPath_Click(object sender, EventArgs e)
+        {
+            using (var ofd = new OpenFileDialog())
+            {
+                ofd.FileName = "OpenCover.Console.exe";
+                ofd.InitialDirectory = $@"{Environment.GetFolderPath(Environment.SpecialFolder.UserProfile)}\.nuget\packages";
+                ofd.Filter = "プログラムファイル(*.exe)|*.exe;";
+                ofd.FilterIndex = 1;
+                ofd.Title = "OpenCoverを選択してください";
+                ofd.RestoreDirectory = true;
+
+                if (ofd.ShowDialog() == DialogResult.OK)
+                {
+                    txtOpernCoverPath.Text = ofd.FileName;
+                }
+            }
+        }
+
+        private void btnReportGenerator_Click(object sender, EventArgs e)
+        {
+            using (var ofd = new OpenFileDialog())
+            {
+                ofd.FileName = "ReportGenerator.exe";
+                ofd.InitialDirectory = $@"{Environment.GetFolderPath(Environment.SpecialFolder.UserProfile)}\.nuget\packages";
+                ofd.Filter = "プログラムファイル(*.exe)|*.exe;";
+                ofd.FilterIndex = 1;
+                ofd.Title = "ReportGeneratorを選択してください";
+                ofd.RestoreDirectory = true;
+
+                if (ofd.ShowDialog() == DialogResult.OK)
+                {
+                    txtReportGenerator.Text = ofd.FileName;
+                }
+            }
         }
     }
 }

@@ -120,4 +120,19 @@
   <metadata name="openFileDialog1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>17, 17</value>
   </metadata>
+  <data name="label7.Text" xml:space="preserve">
+    <value>・手動でテストしたコードのカバレッジを計測します。
+・「OpenCover」と「ReportGenerator]が必要です。ソリューションのNuGetパッケージの管理」から、「OpenCover」と「ReportGenerator]をインストールしてください。
+・テスト対象のプログラムを「Drag＆Drop」した後「プログラム実行」をクリックして下さい。手動テスト完了後、プログラムを終了するとカバレッジレポートを作成します。
+</value>
+  </data>
+  <data name="label8.Text" xml:space="preserve">
+    <value>・VSTest.Console.exe でテストした結果に対するカバレッジレ測定
+C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\IDE\CommonExtensions\Microsoft\TestWindow\vstest.console.exe
+  ⇒「MSTtestでテストした結果」と「手動テスト」の結果をマージして出力できるとよい。
+・asp.net(IIS)上で操作した場合のカバレッジ測定（サーバ側コードのみ）
+
+・カバレッジ率測定のヒストリー機能（OpenCoverに設定がある。使い方を調査)
+</value>
+  </data>
 </root>

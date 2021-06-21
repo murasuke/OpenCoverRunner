@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(RunnerForm));
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.txtTestTargetExePath = new System.Windows.Forms.TextBox();
             this.btnRunProgram = new System.Windows.Forms.Button();
@@ -35,17 +36,20 @@
             this.txtReportGenerator = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.grpSetting = new System.Windows.Forms.GroupBox();
             this.label3 = new System.Windows.Forms.Label();
             this.txtOutputReportPath = new System.Windows.Forms.TextBox();
-            this.button1 = new System.Windows.Forms.Button();
-            this.button2 = new System.Windows.Forms.Button();
+            this.btnOpernCoverPath = new System.Windows.Forms.Button();
+            this.btnReportGenerator = new System.Windows.Forms.Button();
             this.label4 = new System.Windows.Forms.Label();
             this.btnClearOutput = new System.Windows.Forms.Button();
             this.label5 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
-            this.groupBox1.SuspendLayout();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.label8 = new System.Windows.Forms.Label();
+            this.grpSetting.SuspendLayout();
+            this.groupBox2.SuspendLayout();
             this.SuspendLayout();
             // 
             // openFileDialog1
@@ -68,9 +72,9 @@
             // btnRunProgram
             // 
             this.btnRunProgram.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnRunProgram.Location = new System.Drawing.Point(764, 265);
+            this.btnRunProgram.Location = new System.Drawing.Point(764, 267);
             this.btnRunProgram.Name = "btnRunProgram";
-            this.btnRunProgram.Size = new System.Drawing.Size(99, 23);
+            this.btnRunProgram.Size = new System.Drawing.Size(93, 23);
             this.btnRunProgram.TabIndex = 1;
             this.btnRunProgram.Text = "プログラム実行";
             this.btnRunProgram.UseVisualStyleBackColor = true;
@@ -114,27 +118,27 @@
             this.label2.TabIndex = 4;
             this.label2.Text = "RreportGeneratorパス";
             // 
-            // groupBox1
+            // grpSetting
             // 
-            this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.grpSetting.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.groupBox1.Controls.Add(this.btnClearOutput);
-            this.groupBox1.Controls.Add(this.button2);
-            this.groupBox1.Controls.Add(this.button1);
-            this.groupBox1.Controls.Add(this.label1);
-            this.groupBox1.Controls.Add(this.label6);
-            this.groupBox1.Controls.Add(this.label5);
-            this.groupBox1.Controls.Add(this.label3);
-            this.groupBox1.Controls.Add(this.label2);
-            this.groupBox1.Controls.Add(this.txtOpernCoverPath);
-            this.groupBox1.Controls.Add(this.txtOutputReportPath);
-            this.groupBox1.Controls.Add(this.txtReportGenerator);
-            this.groupBox1.Location = new System.Drawing.Point(12, 48);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(851, 159);
-            this.groupBox1.TabIndex = 5;
-            this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "パス一覧";
+            this.grpSetting.Controls.Add(this.btnClearOutput);
+            this.grpSetting.Controls.Add(this.btnReportGenerator);
+            this.grpSetting.Controls.Add(this.btnOpernCoverPath);
+            this.grpSetting.Controls.Add(this.label1);
+            this.grpSetting.Controls.Add(this.label6);
+            this.grpSetting.Controls.Add(this.label5);
+            this.grpSetting.Controls.Add(this.label3);
+            this.grpSetting.Controls.Add(this.label2);
+            this.grpSetting.Controls.Add(this.txtOpernCoverPath);
+            this.grpSetting.Controls.Add(this.txtOutputReportPath);
+            this.grpSetting.Controls.Add(this.txtReportGenerator);
+            this.grpSetting.Location = new System.Drawing.Point(12, 59);
+            this.grpSetting.Name = "grpSetting";
+            this.grpSetting.Size = new System.Drawing.Size(851, 159);
+            this.grpSetting.TabIndex = 5;
+            this.grpSetting.TabStop = false;
+            this.grpSetting.Text = "パス一覧";
             // 
             // label3
             // 
@@ -155,25 +159,27 @@
             this.txtOutputReportPath.Size = new System.Drawing.Size(615, 19);
             this.txtOutputReportPath.TabIndex = 3;
             // 
-            // button1
+            // btnOpernCoverPath
             // 
-            this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.button1.Location = new System.Drawing.Point(752, 23);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
-            this.button1.TabIndex = 5;
-            this.button1.Text = "選択(未)";
-            this.button1.UseVisualStyleBackColor = true;
+            this.btnOpernCoverPath.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnOpernCoverPath.Location = new System.Drawing.Point(752, 23);
+            this.btnOpernCoverPath.Name = "btnOpernCoverPath";
+            this.btnOpernCoverPath.Size = new System.Drawing.Size(93, 23);
+            this.btnOpernCoverPath.TabIndex = 5;
+            this.btnOpernCoverPath.Text = "選択(未)";
+            this.btnOpernCoverPath.UseVisualStyleBackColor = true;
+            this.btnOpernCoverPath.Click += new System.EventHandler(this.btnOpernCoverPath_Click);
             // 
-            // button2
+            // btnReportGenerator
             // 
-            this.button2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.button2.Location = new System.Drawing.Point(752, 46);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(75, 23);
-            this.button2.TabIndex = 5;
-            this.button2.Text = "選択(未)";
-            this.button2.UseVisualStyleBackColor = true;
+            this.btnReportGenerator.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnReportGenerator.Location = new System.Drawing.Point(752, 46);
+            this.btnReportGenerator.Name = "btnReportGenerator";
+            this.btnReportGenerator.Size = new System.Drawing.Size(93, 23);
+            this.btnReportGenerator.TabIndex = 5;
+            this.btnReportGenerator.Text = "選択(未)";
+            this.btnReportGenerator.UseVisualStyleBackColor = true;
+            this.btnReportGenerator.Click += new System.EventHandler(this.btnReportGenerator_Click);
             // 
             // label4
             // 
@@ -190,9 +196,9 @@
             this.btnClearOutput.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnClearOutput.Location = new System.Drawing.Point(752, 104);
             this.btnClearOutput.Name = "btnClearOutput";
-            this.btnClearOutput.Size = new System.Drawing.Size(75, 23);
+            this.btnClearOutput.Size = new System.Drawing.Size(93, 34);
             this.btnClearOutput.TabIndex = 5;
-            this.btnClearOutput.Text = "クリア(未)";
+            this.btnClearOutput.Text = "前回のレポート削除";
             this.btnClearOutput.UseVisualStyleBackColor = true;
             this.btnClearOutput.Click += new System.EventHandler(this.btnClearOutput_Click);
             // 
@@ -201,35 +207,56 @@
             this.label5.AutoSize = true;
             this.label5.Location = new System.Drawing.Point(129, 128);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(597, 12);
+            this.label5.Size = new System.Drawing.Size(597, 24);
             this.label5.TabIndex = 4;
-            this.label5.Text = "複数回「プログラム実行」を行った場合、テスト結果(カバレッジ率)はマージされます。1から計測したい場合は「クリア」してください。";
+            this.label5.Text = "テスト対象プログラムパスにサブフォルダ「OpenCoverResult」を作成し、そこにレポートファイル「index.html」を作成します。\r\n複数回「プログラ" +
+    "ム実行」を行った場合、テスト結果(カバレッジ率)はマージされます。1から計測したい場合は「クリア」してください。";
             // 
             // label6
             // 
             this.label6.AutoSize = true;
             this.label6.Location = new System.Drawing.Point(129, 72);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(503, 12);
+            this.label6.Size = new System.Drawing.Size(571, 24);
             this.label6.TabIndex = 4;
-            this.label6.Text = "「%USERPROFILE%\\.nuget\\packages」から、「OpenCover」と「ReportGenerator]を検索してセットします。";
+            this.label6.Text = "初回起動時、「%USERPROFILE%\\.nuget\\packages」から、「OpenCover」と「ReportGenerator]を検索してセットします。" +
+    "\r\n見つかった場合app.configに保存し、2回目以降の起動ではapp.configから読み込んで表示します。";
             // 
             // label7
             // 
             this.label7.AutoSize = true;
             this.label7.Location = new System.Drawing.Point(12, 9);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(511, 24);
+            this.label7.Size = new System.Drawing.Size(753, 36);
             this.label7.TabIndex = 4;
-            this.label7.Text = "手動でテストしたコードのカバレッジを計測します。「OpenCover」と「ReportGenerator]が必要です。\r\nソリューションのNuGetパッケージの管" +
-    "理」から、「OpenCover」と「ReportGenerator]をインストールしてください。\r\n";
+            this.label7.Text = resources.GetString("label7.Text");
+            // 
+            // groupBox2
+            // 
+            this.groupBox2.Controls.Add(this.label8);
+            this.groupBox2.Location = new System.Drawing.Point(12, 313);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Size = new System.Drawing.Size(845, 133);
+            this.groupBox2.TabIndex = 6;
+            this.groupBox2.TabStop = false;
+            this.groupBox2.Text = "今後の機能追加メモ";
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(6, 15);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(747, 72);
+            this.label8.TabIndex = 0;
+            this.label8.Text = resources.GetString("label8.Text");
             // 
             // RunnerForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(889, 312);
-            this.Controls.Add(this.groupBox1);
+            this.ClientSize = new System.Drawing.Size(889, 458);
+            this.Controls.Add(this.groupBox2);
+            this.Controls.Add(this.grpSetting);
             this.Controls.Add(this.btnRunProgram);
             this.Controls.Add(this.txtTestTargetExePath);
             this.Controls.Add(this.label7);
@@ -237,8 +264,10 @@
             this.Name = "RunnerForm";
             this.Text = "OpenCoverRunnerForm";
             this.Load += new System.EventHandler(this.RunnerForm_Load);
-            this.groupBox1.ResumeLayout(false);
-            this.groupBox1.PerformLayout();
+            this.grpSetting.ResumeLayout(false);
+            this.grpSetting.PerformLayout();
+            this.groupBox2.ResumeLayout(false);
+            this.groupBox2.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -253,9 +282,9 @@
         private System.Windows.Forms.TextBox txtReportGenerator;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.GroupBox groupBox1;
-        private System.Windows.Forms.Button button2;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.GroupBox grpSetting;
+        private System.Windows.Forms.Button btnReportGenerator;
+        private System.Windows.Forms.Button btnOpernCoverPath;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.TextBox txtOutputReportPath;
         private System.Windows.Forms.Button btnClearOutput;
@@ -263,6 +292,8 @@
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.GroupBox groupBox2;
+        private System.Windows.Forms.Label label8;
     }
 }
 

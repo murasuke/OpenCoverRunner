@@ -34,7 +34,7 @@ namespace ManualTestSample
 
         private void button2_Click(object sender, EventArgs e)
         {
-            numericUpDown6.Value = Div(numericUpDown5.Value, numericUpDown4.Value);
+            numericUpDown6.Value = Mul(numericUpDown5.Value, numericUpDown4.Value);
         }
 
         public decimal Mul(decimal a, decimal b)
