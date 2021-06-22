@@ -22,8 +22,8 @@ namespace OpenCoverRunnerForm
 
         public readonly string NugetPath = $@"{Environment.GetFolderPath(Environment.SpecialFolder.UserProfile)}\.nuget\packages";
 
-        public string OpenCoverPath { get; set; } = ConfigurationManager.AppSettings["OpenCoverPath"];
-        public string ReportGeneratorPath { get; set; } = ConfigurationManager.AppSettings["ReportGeneratorPath"];
+        public string OpenCoverPath { get { return ConfigurationManager.AppSettings["OpenCoverPath"]; } }
+        public string ReportGeneratorPath { get { return ConfigurationManager.AppSettings["ReportGeneratorPath"]; } }
 
         private void RunnerForm_Load(object sender, EventArgs e)
         {
