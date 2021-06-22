@@ -165,7 +165,7 @@ namespace OpenCoverRunnerForm
         {
             if( Directory.Exists( txtOutputReportPath.Text))
             {
-                if( MessageBox.Show("確認","出力先をクリアしますか？", MessageBoxButtons.OKCancel) == DialogResult.OK)
+                if( MessageBox.Show("前回までの実行履歴をクリアしますか？","確認", MessageBoxButtons.OKCancel) == DialogResult.OK)
                 {
                     Directory.Delete(txtOutputReportPath.Text, true);
                 }

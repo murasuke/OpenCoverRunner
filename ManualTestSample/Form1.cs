@@ -19,8 +19,45 @@ namespace ManualTestSample
 
         private void button1_Click(object sender, EventArgs e)
         {
-            numericUpDown3.Value = Div(numericUpDown1.Value, numericUpDown2.Value);
+            if( rdoAdd.Checked)
+            {
+                numericUpDown3.Value = Add(numericUpDown1.Value, numericUpDown2.Value);
+            }
+            else if (rdoSub.Checked)
+            {
+                numericUpDown3.Value = Sub(numericUpDown1.Value, numericUpDown2.Value);
+            }
+            else if (rdoMul.Checked)
+            {
+                numericUpDown3.Value = Mul(numericUpDown1.Value, numericUpDown2.Value);
+            }
+            else if (rdoDiv.Checked)
+            {
+                numericUpDown3.Value = Div(numericUpDown1.Value, numericUpDown2.Value);
+            }
+            
         }
+
+        public decimal Add(decimal a, decimal b)
+        {
+            return a + b;
+        }
+
+
+
+        public decimal Sub(decimal a, decimal b)
+        {
+            return a - b;
+        }
+
+
+
+        public decimal Mul(decimal a, decimal b)
+        {
+            return a * b;
+        }
+
+
 
         public decimal Div(decimal a, decimal b)
         {
@@ -32,16 +69,7 @@ namespace ManualTestSample
             return a / b;
         }
 
-        private void button2_Click(object sender, EventArgs e)
-        {
-            numericUpDown6.Value = Mul(numericUpDown5.Value, numericUpDown4.Value);
-        }
 
-        public decimal Mul(decimal a, decimal b)
-        {
-            var result = a * b;
-            return result;
-        }
 
 
     }

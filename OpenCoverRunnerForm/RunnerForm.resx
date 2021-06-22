@@ -121,9 +121,9 @@
     <value>17, 17</value>
   </metadata>
   <data name="label7.Text" xml:space="preserve">
-    <value>・手動でテストしたコードのカバレッジを計測します。
-・「OpenCover」と「ReportGenerator]が必要です。ソリューションのNuGetパッケージの管理」から、「OpenCover」と「ReportGenerator]をインストールしてください。
-・テスト対象のプログラムを「Drag＆Drop」した後「プログラム実行」をクリックして下さい。手動テスト完了後、プログラムを終了するとカバレッジレポートを作成します。
+    <value>・プログラムを手動で操作した結果(単体テスト)から、コードのカバレッジを計測します。
+・「OpenCover」と「ReportGenerator]が必要です。NuGetパッケージの管理からインストールしてください(VSで開いてビルドすると自動でインストールされます)。
+・テスト対象のプログラムを「Drag＆Drop」した後「プログラム起動」をクリックして下さい。プログラムを終了するとカバレッジレポートを表示します。
 </value>
   </data>
   <data name="label8.Text" xml:space="preserve">
