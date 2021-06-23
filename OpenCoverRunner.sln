@@ -3,9 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30225.117
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ManualTestSample", "ManualTestSample\ManualTestSample.csproj", "{0370FA44-3AA9-4F5C-A30B-76C1A42945E8}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ManualTestTarget", "ManualTestSample\ManualTestTarget.csproj", "{0370FA44-3AA9-4F5C-A30B-76C1A42945E8}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenCoverRunnerForm", "OpenCoverRunnerForm\OpenCoverRunnerForm.csproj", "{63460486-F49E-410D-959E-1059745FC767}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTestProject", "UnitTestProject1\UnitTestProject.csproj", "{1E83281B-04B0-4E93-AB39-7D090D4018A0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{63460486-F49E-410D-959E-1059745FC767}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{63460486-F49E-410D-959E-1059745FC767}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{63460486-F49E-410D-959E-1059745FC767}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1E83281B-04B0-4E93-AB39-7D090D4018A0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1E83281B-04B0-4E93-AB39-7D090D4018A0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1E83281B-04B0-4E93-AB39-7D090D4018A0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1E83281B-04B0-4E93-AB39-7D090D4018A0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

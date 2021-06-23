@@ -1,6 +1,6 @@
-﻿namespace ManualTestSample
+﻿namespace ManualTestTarget
 {
-    partial class ManualTestSample
+    partial class ManualTestForm
     {
         /// <summary>
         /// 必要なデザイナー変数です。
@@ -166,6 +166,7 @@
             this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "ManualTestSample";
             this.Text = "テスト対象サンプルフォーム";
+            this.Load += new System.EventHandler(this.ManualTestSample_Load);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.ResumeLayout(false);

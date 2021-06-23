@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ManualTestSample
+namespace ManualTestTarget
 {
-    class CalcLogic
+    public class CalcLogic
     {
         public static decimal Add(decimal a, decimal b)
         {

@@ -41,6 +41,13 @@ NuGetでインストールします。
 
   ※UnitTest(MSTest、NUnit)も不要です。
 
+
+## ソリューション構成
+
+* OpenCoverRunner   ・・・ソリューション
+  * OpenCoverRunnerForm   ・・・OpenCover起動をサポートするフォーム
+  * ManualTestTarget  ・・・手動テスト対象フォーム
+  * UnitTestProject　・・・MSTestプロジェクト
 ## 手順
 
 * Comming soon....
@@ -56,4 +63,12 @@ NuGetでインストールします。
 * exeから読み込むdllも一緒にカバレッジ測定できるのか？
 * -historydir:history を指定すると、過去との比較ができる？
 
+* VS インストール調査
+C:\Program Files (x86)\Microsoft Visual Studio\Installer> vswhere.exe -legacy -prerelease -format json
 
+
+
+
+https://kuttsun.blogspot.com/2017/12/opencover.html
+
+MSTestとOpenCoverの併用

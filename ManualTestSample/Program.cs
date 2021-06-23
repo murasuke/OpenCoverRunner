@@ -16,7 +16,7 @@ namespace ManualTestSample
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new ManualTestSample());
+            Application.Run(new ManualTestTarget.ManualTestForm());
         }
     }
 }
