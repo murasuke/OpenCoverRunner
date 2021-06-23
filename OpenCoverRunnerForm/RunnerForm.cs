@@ -1,13 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Diagnostics;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Configuration;
 
@@ -23,7 +17,18 @@ namespace OpenCoverRunnerForm
         public readonly string NugetPath = $@"{Environment.GetFolderPath(Environment.SpecialFolder.UserProfile)}\.nuget\packages";
 
         public string OpenCoverPath { get { return ConfigurationManager.AppSettings["OpenCoverPath"]; } }
+
         public string ReportGeneratorPath { get { return ConfigurationManager.AppSettings["ReportGeneratorPath"]; } }
+
+        public string OutputPath
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(txtTestTargetExePath.Text)) return "";
+                var outputPath = Path.Combine(Path.GetDirectoryName(txtTestTargetExePath.Text), "OpenCoverResult");
+                return outputPath;
+            }
+        }
 
         private void RunnerForm_Load(object sender, EventArgs e)
         {
@@ -54,6 +59,8 @@ namespace OpenCoverRunnerForm
             ConfigurationManager.RefreshSection("appSettings");
             txtOpernCoverPath.Text = OpenCoverPath;
             txtReportGenerator.Text = ReportGeneratorPath;
+            txtTestTargetExePath.Text = ConfigurationManager.AppSettings["TestTargetExePath"];
+            txtOutputReportPath.Text = OutputPath;
         }
 
         private string[] searchExeFromNuget(string exeName)
@@ -71,12 +78,7 @@ namespace OpenCoverRunnerForm
             }
         }
 
-        public string OutputPath {
-            get {
-                var outputPath = Path.Combine(Path.GetDirectoryName(txtTestTargetExePath.Text), "OpenCoverResult");
-                return outputPath;
-            }
-        }
+
 
         private string GetOpenCoverArgs()
         {
@@ -129,7 +131,16 @@ namespace OpenCoverRunnerForm
                 return ps.ExitCode;
             };
 
-            if(execProcess(OpenCoverPath, GetOpenCoverArgs()) == 0)
+            if (!File.Exists(txtTestTargetExePath.Text))
+            {
+                return;
+            }
+
+            Configuration config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
+            config.AppSettings.Settings["TestTargetExePath"].Value = txtTestTargetExePath.Text;
+            config.Save();            
+
+            if (execProcess(OpenCoverPath, GetOpenCoverArgs()) == 0)
             {
                 if (execProcess(ReportGeneratorPath, GetReportGeneratorArgs()) == 0)
                 {
@@ -168,8 +179,7 @@ namespace OpenCoverRunnerForm
                 if( MessageBox.Show("前回までの実行履歴をクリアしますか？","確認", MessageBoxButtons.OKCancel) == DialogResult.OK)
                 {
                     Directory.Delete(txtOutputReportPath.Text, true);
-                }
-               
+                }               
             }
         }
 
