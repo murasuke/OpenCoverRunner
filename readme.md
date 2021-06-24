@@ -66,7 +66,12 @@ NuGetでインストールします。
 * VS インストール調査
 C:\Program Files (x86)\Microsoft Visual Studio\Installer> vswhere.exe -legacy -prerelease -format json
 
+vswhere.exe は環境変数 %ProgramFiles% と %ProgramFiles(x86)% 双方の下の Microsoft Visual Studio\Installer から探す
 
+```
+vswhere.exe -latest -property productpath
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\devenv.exe
+```
 
 
 https://kuttsun.blogspot.com/2017/12/opencover.html

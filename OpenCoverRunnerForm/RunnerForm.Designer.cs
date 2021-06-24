@@ -29,7 +29,6 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(RunnerForm));
-            this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.txtTestTargetExePath = new System.Windows.Forms.TextBox();
             this.btnRunProgram = new System.Windows.Forms.Button();
             this.txtOpernCoverPath = new System.Windows.Forms.TextBox();
@@ -48,13 +47,12 @@
             this.label7 = new System.Windows.Forms.Label();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.label8 = new System.Windows.Forms.Label();
+            this.txtUnitTestDllPath = new System.Windows.Forms.TextBox();
+            this.label9 = new System.Windows.Forms.Label();
+            this.btnRunTest = new System.Windows.Forms.Button();
             this.grpSetting.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // openFileDialog1
-            // 
-            this.openFileDialog1.FileName = "openFileDialog1";
             // 
             // txtTestTargetExePath
             // 
@@ -237,9 +235,9 @@
             // groupBox2
             // 
             this.groupBox2.Controls.Add(this.label8);
-            this.groupBox2.Location = new System.Drawing.Point(12, 313);
+            this.groupBox2.Location = new System.Drawing.Point(12, 347);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(832, 133);
+            this.groupBox2.Size = new System.Drawing.Size(832, 99);
             this.groupBox2.TabIndex = 6;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "今後の機能追加メモ";
@@ -247,11 +245,47 @@
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(6, 15);
+            this.label8.Location = new System.Drawing.Point(15, 15);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(747, 72);
             this.label8.TabIndex = 0;
             this.label8.Text = resources.GetString("label8.Text");
+            // 
+            // txtUnitTestDllPath
+            // 
+            this.txtUnitTestDllPath.AllowDrop = true;
+            this.txtUnitTestDllPath.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtUnitTestDllPath.BackColor = System.Drawing.Color.LightCyan;
+            this.txtUnitTestDllPath.Location = new System.Drawing.Point(13, 322);
+            this.txtUnitTestDllPath.Name = "txtUnitTestDllPath";
+            this.txtUnitTestDllPath.Size = new System.Drawing.Size(832, 19);
+            this.txtUnitTestDllPath.TabIndex = 0;
+            this.txtUnitTestDllPath.DragDrop += new System.Windows.Forms.DragEventHandler(this.txtTestTargetExePath_DragDrop);
+            this.txtUnitTestDllPath.DragEnter += new System.Windows.Forms.DragEventHandler(this.txtTestTargetExePath_DragEnter);
+            this.txtUnitTestDllPath.Leave += new System.EventHandler(this.txtTestTargetExePath_Leave);
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Font = new System.Drawing.Font("MS UI Gothic", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.label9.Location = new System.Drawing.Point(12, 306);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(244, 13);
+            this.label9.TabIndex = 4;
+            this.label9.Text = "ユニットテスト(dll)のパスを入力(Optional)";
+            // 
+            // btnRunTest
+            // 
+            this.btnRunTest.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnRunTest.Font = new System.Drawing.Font("MS UI Gothic", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.btnRunTest.Location = new System.Drawing.Point(850, 306);
+            this.btnRunTest.Name = "btnRunTest";
+            this.btnRunTest.Size = new System.Drawing.Size(113, 47);
+            this.btnRunTest.TabIndex = 1;
+            this.btnRunTest.Text = "ユニットテスト実行";
+            this.btnRunTest.UseVisualStyleBackColor = true;
+            this.btnRunTest.Click += new System.EventHandler(this.btnRunProgram_Click);
             // 
             // RunnerForm
             // 
@@ -260,9 +294,12 @@
             this.ClientSize = new System.Drawing.Size(975, 458);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.grpSetting);
+            this.Controls.Add(this.btnRunTest);
             this.Controls.Add(this.btnRunProgram);
+            this.Controls.Add(this.txtUnitTestDllPath);
             this.Controls.Add(this.txtTestTargetExePath);
             this.Controls.Add(this.label7);
+            this.Controls.Add(this.label9);
             this.Controls.Add(this.label4);
             this.Name = "RunnerForm";
             this.Text = "OpenCoverRunnerForm";
@@ -277,8 +314,6 @@
         }
 
         #endregion
-
-        private System.Windows.Forms.OpenFileDialog openFileDialog1;
         private System.Windows.Forms.TextBox txtTestTargetExePath;
         private System.Windows.Forms.Button btnRunProgram;
         private System.Windows.Forms.TextBox txtOpernCoverPath;
@@ -297,6 +332,9 @@
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.TextBox txtUnitTestDllPath;
+        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.Button btnRunTest;
     }
 }
 

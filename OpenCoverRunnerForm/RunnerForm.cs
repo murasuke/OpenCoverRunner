@@ -20,6 +20,8 @@ namespace OpenCoverRunnerForm
 
         public string ReportGeneratorPath { get { return ConfigurationManager.AppSettings["ReportGeneratorPath"]; } }
 
+        public string MSTestPath = @" C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\TestWindow\vstest.console.exe";
+
         public string OutputPath
         {
             get
@@ -147,7 +149,7 @@ namespace OpenCoverRunnerForm
 
             // exeの場合は直接起動をして手動テスト、dllの場合はUnitTestとみなして実行する
             var extention = Path.GetExtension(txtTestTargetExePath.Text).ToLower();
-            if (extention == "exe")
+            if (extention == ".exe")
             {
                 if (execProcess(OpenCoverPath, GetOpenCoverArgs()) == 0)
                 {
@@ -161,9 +163,34 @@ namespace OpenCoverRunnerForm
                     }
                 }
             }
-            else if (extention == "dll")
+            else if (extention == ".dll")
             {
+                var outputFile = Path.Combine(OutputPath, "results.xml");
+                var target = $"-target:\"{MSTestPath}\"";
+                var targetargs = $"-targetargs:\"{txtTestTargetExePath.Text}\"";
+                var output = $"-output:\"{outputFile}\"";
+                var etcArgs = "-mergeoutput -register:user";
 
+                if (!Directory.Exists(OutputPath))
+                {
+                    Directory.CreateDirectory(OutputPath);
+                }
+
+                var args = $"{target} {targetargs} {output} {etcArgs}";
+
+                Debug.WriteLine(args);
+
+                if (execProcess(OpenCoverPath, args) == 0)
+                {
+                    if (execProcess(ReportGeneratorPath, GetReportGeneratorArgs()) == 0)
+                    {
+                        var dialogResult = MessageBox.Show("生成したレポートファイルを開きますか？", "処理完了", MessageBoxButtons.YesNo);
+                        if (dialogResult == DialogResult.Yes)
+                        {
+                            Process.Start($@"{OutputPath}\index.htm");
+                        }
+                    }
+                }
             }
 
 
