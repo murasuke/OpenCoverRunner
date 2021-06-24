@@ -32,6 +32,9 @@ namespace OpenCoverRunnerForm
 
         private void RunnerForm_Load(object sender, EventArgs e)
         {
+            // todo: Visual Studioのインストール先を取得する。MSTestのパスを見つけるため
+
+
             Configuration config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
             if (string.IsNullOrEmpty(OpenCoverPath))
             {
@@ -136,21 +139,34 @@ namespace OpenCoverRunnerForm
                 return;
             }
 
+
             Configuration config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
             config.AppSettings.Settings["TestTargetExePath"].Value = txtTestTargetExePath.Text;
-            config.Save();            
+            config.Save();
 
-            if (execProcess(OpenCoverPath, GetOpenCoverArgs()) == 0)
+
+            // exeの場合は直接起動をして手動テスト、dllの場合はUnitTestとみなして実行する
+            var extention = Path.GetExtension(txtTestTargetExePath.Text).ToLower();
+            if (extention == "exe")
             {
-                if (execProcess(ReportGeneratorPath, GetReportGeneratorArgs()) == 0)
+                if (execProcess(OpenCoverPath, GetOpenCoverArgs()) == 0)
                 {
-                    var dialogResult = MessageBox.Show( "生成したレポートファイルを開きますか？", "処理完了", MessageBoxButtons.YesNo);
-                    if (dialogResult == DialogResult.Yes)
+                    if (execProcess(ReportGeneratorPath, GetReportGeneratorArgs()) == 0)
                     {
-                        Process.Start($@"{OutputPath}\index.htm");
+                        var dialogResult = MessageBox.Show( "生成したレポートファイルを開きますか？", "処理完了", MessageBoxButtons.YesNo);
+                        if (dialogResult == DialogResult.Yes)
+                        {
+                            Process.Start($@"{OutputPath}\index.htm");
+                        }
                     }
                 }
             }
+            else if (extention == "dll")
+            {
+
+            }
+
+
         }
 
         private void txtTestTargetExePath_DragEnter(object sender, DragEventArgs e)
