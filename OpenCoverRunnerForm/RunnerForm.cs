@@ -20,7 +20,7 @@ namespace OpenCoverRunnerForm
 
         public string ReportGeneratorPath { get { return ConfigurationManager.AppSettings["ReportGeneratorPath"]; } }
 
-        public string MSTestPath = @" C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\TestWindow\vstest.console.exe";
+        public string MSTestPath { get; set; }
 
         public string OutputPath
         {
@@ -35,6 +35,7 @@ namespace OpenCoverRunnerForm
         private void RunnerForm_Load(object sender, EventArgs e)
         {
             // todo: Visual Studioのインストール先を取得する。MSTestのパスを見つけるため
+            MSTestPath = SearchVSTestPath();
 
 
             Configuration config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
@@ -66,6 +67,48 @@ namespace OpenCoverRunnerForm
             txtReportGenerator.Text = ReportGeneratorPath;
             txtTestTargetExePath.Text = ConfigurationManager.AppSettings["TestTargetExePath"];
             txtOutputReportPath.Text = OutputPath;
+        }
+
+        private string SearchVSTestPath()
+        {         
+            Func<string, string> SearchPathSub = (string basePath) =>
+            {
+                var installerPath = Path.Combine(basePath, @"Microsoft Visual Studio\Installer\vswhere.exe");
+                if (File.Exists(installerPath))
+                {
+                    var result = ExecAndReadConsole(installerPath, " -latest -property installationPath");
+                    if (result.Item1 == -0)
+                    {
+                        return Path.Combine(result.Item2, @"Common7\IDE\CommonExtensions\Microsoft\TestWindow\vstest.console.exe");
+                    }
+                }
+                return "";
+            };
+
+            var pgFiles86 = Environment.GetEnvironmentVariable("ProgramFiles(x86)");
+            var vsTest86 = SearchPathSub(pgFiles86);
+            if (string.IsNullOrEmpty(vsTest86))
+            {
+                var pgFiles = Environment.GetEnvironmentVariable("ProgramFiles");
+                return SearchPathSub(pgFiles);
+
+            }
+            return vsTest86;
+        }
+
+        private Tuple<int, string> ExecAndReadConsole(string path, string args)
+        {
+            ProcessStartInfo psInfo = new ProcessStartInfo(path, args);
+            psInfo.CreateNoWindow = true; // コンソール・ウィンドウを開かない
+            psInfo.UseShellExecute = false;
+            psInfo.RedirectStandardOutput = true; // 標準出力をリダイレクト
+            psInfo.RedirectStandardError = true;
+            var ps = Process.Start(psInfo);
+
+            var stdout = ps.StandardOutput.ReadToEnd().TrimEnd();
+            Debug.Write(ps.StandardError.ReadToEnd());
+            ps.WaitForExit();
+            return new Tuple<int, string>(ps.ExitCode, stdout);
         }
 
         private string[] searchExeFromNuget(string exeName)
@@ -119,22 +162,25 @@ namespace OpenCoverRunnerForm
             return args;
         }
 
+
+
+
         private void btnRunProgram_Click(object sender, EventArgs e)
         {
-            Func<string, string, int> execProcess = (path, args) => {
-                ProcessStartInfo psInfo = new ProcessStartInfo(path, args);
-                psInfo.CreateNoWindow = true; // コンソール・ウィンドウを開かない
-                psInfo.UseShellExecute = false;
-                psInfo.RedirectStandardOutput = true; // 標準出力をリダイレクト
-                psInfo.RedirectStandardError = true;
-                var ps = Process.Start(psInfo);
+            //Func<string, string, int> execProcess = (path, args) => {
+            //    ProcessStartInfo psInfo = new ProcessStartInfo(path, args);
+            //    psInfo.CreateNoWindow = true; // コンソール・ウィンドウを開かない
+            //    psInfo.UseShellExecute = false;
+            //    psInfo.RedirectStandardOutput = true; // 標準出力をリダイレクト
+            //    psInfo.RedirectStandardError = true;
+            //    var ps = Process.Start(psInfo);
 
-                Debug.Write(ps.StandardOutput.ReadToEnd());
-                Debug.Write(ps.StandardError.ReadToEnd());
-                ps.WaitForExit();
+            //    Debug.Write(ps.StandardOutput.ReadToEnd());
+            //    Debug.Write(ps.StandardError.ReadToEnd());
+            //    ps.WaitForExit();
          
-                return ps.ExitCode;
-            };
+            //    return ps.ExitCode;
+            //};
 
             if (!File.Exists(txtTestTargetExePath.Text))
             {
@@ -151,9 +197,9 @@ namespace OpenCoverRunnerForm
             var extention = Path.GetExtension(txtTestTargetExePath.Text).ToLower();
             if (extention == ".exe")
             {
-                if (execProcess(OpenCoverPath, GetOpenCoverArgs()) == 0)
+                if (ExecAndReadConsole(OpenCoverPath, GetOpenCoverArgs()).Item1 == 0)
                 {
-                    if (execProcess(ReportGeneratorPath, GetReportGeneratorArgs()) == 0)
+                    if (ExecAndReadConsole(ReportGeneratorPath, GetReportGeneratorArgs()).Item1 == 0)
                     {
                         var dialogResult = MessageBox.Show( "生成したレポートファイルを開きますか？", "処理完了", MessageBoxButtons.YesNo);
                         if (dialogResult == DialogResult.Yes)
@@ -180,9 +226,9 @@ namespace OpenCoverRunnerForm
 
                 Debug.WriteLine(args);
 
-                if (execProcess(OpenCoverPath, args) == 0)
+                if (ExecAndReadConsole(OpenCoverPath, args).Item1 == 0)
                 {
-                    if (execProcess(ReportGeneratorPath, GetReportGeneratorArgs()) == 0)
+                    if (ExecAndReadConsole(ReportGeneratorPath, GetReportGeneratorArgs()).Item1 == 0)
                     {
                         var dialogResult = MessageBox.Show("生成したレポートファイルを開きますか？", "処理完了", MessageBoxButtons.YesNo);
                         if (dialogResult == DialogResult.Yes)
