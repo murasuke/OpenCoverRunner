@@ -42,15 +42,15 @@ NuGetでインストールします。
 
   ※Visual Studioのカバレッジ測定ツールはEnterprise版が必要なため利用しません。
 
-  ※UnitTest(MSTest、NUnit)も不要です。
+  ※UnitTest(MSTest、NUnit)も不要です（併用も可能)
 
 
 ## ソリューション構成
 
 * OpenCoverRunner   ・・・ソリューション
-  * OpenCoverRunnerForm   ・・・OpenCover起動をサポートするフォーム
-  * ManualTestTarget  ・・・手動テスト対象フォーム
-  * UnitTestProject　・・・MSTestプロジェクト
+  * OpenCoverRunnerForm   ・・・OpenCoverRunner本体
+  * ManualTestTarget  ・・・動作確認用サンプルプログラム(手動テスト対象)
+  * UnitTestProject　・・・ManualTestTargetのユニットテスト。Logicのみテストを行う(Formは対象外)
 ## 手順
 
 * Comming soon....
