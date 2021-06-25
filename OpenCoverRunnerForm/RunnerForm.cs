@@ -117,15 +117,6 @@ namespace OpenCoverRunnerForm
             return paths;
         }
 
-        private void txtTestTargetExePath_Leave(object sender, EventArgs e)
-        {
-            if (string.IsNullOrWhiteSpace(txtTestTargetExePath.Text))
-            {
-                txtTestTargetExePath.Text = "";
-                return;
-            }
-        }
-
 
 
         private string GetOpenCoverArgs()
@@ -167,26 +158,10 @@ namespace OpenCoverRunnerForm
 
         private void btnRunProgram_Click(object sender, EventArgs e)
         {
-            //Func<string, string, int> execProcess = (path, args) => {
-            //    ProcessStartInfo psInfo = new ProcessStartInfo(path, args);
-            //    psInfo.CreateNoWindow = true; // コンソール・ウィンドウを開かない
-            //    psInfo.UseShellExecute = false;
-            //    psInfo.RedirectStandardOutput = true; // 標準出力をリダイレクト
-            //    psInfo.RedirectStandardError = true;
-            //    var ps = Process.Start(psInfo);
-
-            //    Debug.Write(ps.StandardOutput.ReadToEnd());
-            //    Debug.Write(ps.StandardError.ReadToEnd());
-            //    ps.WaitForExit();
-         
-            //    return ps.ExitCode;
-            //};
-
             if (!File.Exists(txtTestTargetExePath.Text))
             {
                 return;
             }
-
 
             Configuration config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
             config.AppSettings.Settings["TestTargetExePath"].Value = txtTestTargetExePath.Text;
@@ -238,39 +213,8 @@ namespace OpenCoverRunnerForm
                     }
                 }
             }
-
-
         }
 
-        private void txtTestTargetExePath_DragEnter(object sender, DragEventArgs e)
-        {
-            if (e.Data.GetDataPresent(DataFormats.FileDrop))
-            {
-                e.Effect = DragDropEffects.Copy;
-            }
-            else
-            {
-                e.Effect = DragDropEffects.None;
-            }
-        }
-
-        private void txtTestTargetExePath_DragDrop(object sender, DragEventArgs e)
-        {
-            string[] fileName = (string[])e.Data.GetData(DataFormats.FileDrop, false);
-            txtTestTargetExePath.Text = fileName[0];
-            txtOutputReportPath.Text = OutputPath;
-        }
-
-        private void btnClearOutput_Click(object sender, EventArgs e)
-        {
-            if( Directory.Exists( txtOutputReportPath.Text))
-            {
-                if( MessageBox.Show("前回までの実行履歴をクリアしますか？","確認", MessageBoxButtons.OKCancel) == DialogResult.OK)
-                {
-                    Directory.Delete(txtOutputReportPath.Text, true);
-                }               
-            }
-        }
 
         private void btnOpernCoverPath_Click(object sender, EventArgs e)
         {
@@ -305,6 +249,76 @@ namespace OpenCoverRunnerForm
                 {
                     txtReportGenerator.Text = ofd.FileName;
                 }
+            }
+        }
+
+
+        private void txtTestTargetExePath_DragEnter(object sender, DragEventArgs e)
+        {
+            if (e.Data.GetDataPresent(DataFormats.FileDrop))
+            {
+                e.Effect = DragDropEffects.Copy;
+            }
+            else
+            {
+                e.Effect = DragDropEffects.None;
+            }
+        }
+
+        private void txtTestTargetExePath_DragDrop(object sender, DragEventArgs e)
+        {
+            string[] fileName = (string[])e.Data.GetData(DataFormats.FileDrop, false);
+            txtTestTargetExePath.Text = fileName[0];
+            txtOutputReportPath.Text = OutputPath;
+        }
+
+
+        private void txtTestTargetExePath_Leave(object sender, EventArgs e)
+        {
+            if (string.IsNullOrWhiteSpace(txtTestTargetExePath.Text))
+            {
+                txtTestTargetExePath.Text = "";
+                return;
+            }
+        }
+
+
+        private void btnClearOutput_Click(object sender, EventArgs e)
+        {
+            if( Directory.Exists( txtOutputReportPath.Text))
+            {
+                if( MessageBox.Show("前回までの実行履歴をクリアしますか？","確認", MessageBoxButtons.OKCancel) == DialogResult.OK)
+                {
+                    Directory.Delete(txtOutputReportPath.Text, true);
+                }               
+            }
+        }
+
+
+        private void txtUnitTestDllPath_DragDrop(object sender, DragEventArgs e)
+        {
+            if (e.Data.GetDataPresent(DataFormats.FileDrop))
+            {
+                e.Effect = DragDropEffects.Copy;
+            }
+            else
+            {
+                e.Effect = DragDropEffects.None;
+            }
+        }
+
+        private void txtUnitTestDllPath_DragEnter(object sender, DragEventArgs e)
+        {
+            string[] fileName = (string[])e.Data.GetData(DataFormats.FileDrop, false);
+            txtUnitTestDllPath.Text = fileName[0];
+        }
+
+        private void txtUnitTestDllPath_Leave(object sender, EventArgs e)
+        {
+            if (string.IsNullOrWhiteSpace(txtTestTargetExePath.Text))
+            {
+                txtUnitTestDllPath.Text = "";
+                return;
             }
         }
     }

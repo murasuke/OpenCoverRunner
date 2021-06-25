@@ -261,9 +261,9 @@
             this.txtUnitTestDllPath.Name = "txtUnitTestDllPath";
             this.txtUnitTestDllPath.Size = new System.Drawing.Size(832, 19);
             this.txtUnitTestDllPath.TabIndex = 0;
-            this.txtUnitTestDllPath.DragDrop += new System.Windows.Forms.DragEventHandler(this.txtTestTargetExePath_DragDrop);
-            this.txtUnitTestDllPath.DragEnter += new System.Windows.Forms.DragEventHandler(this.txtTestTargetExePath_DragEnter);
-            this.txtUnitTestDllPath.Leave += new System.EventHandler(this.txtTestTargetExePath_Leave);
+            this.txtUnitTestDllPath.DragDrop += new System.Windows.Forms.DragEventHandler(this.txtUnitTestDllPath_DragDrop);
+            this.txtUnitTestDllPath.DragEnter += new System.Windows.Forms.DragEventHandler(this.txtUnitTestDllPath_DragEnter);
+            this.txtUnitTestDllPath.Leave += new System.EventHandler(this.txtUnitTestDllPath_Leave);
             // 
             // label9
             // 
