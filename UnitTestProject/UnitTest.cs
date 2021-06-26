@@ -1,8 +1,7 @@
-﻿using System;
+﻿using ManualTestTarget;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using ManualTestTarget;
 
-namespace UnitTestProject1
+namespace UnitTestProject
 {
     [TestClass]
     public class UnitTest

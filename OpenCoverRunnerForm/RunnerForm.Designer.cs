@@ -285,7 +285,7 @@
             this.btnRunTest.TabIndex = 1;
             this.btnRunTest.Text = "ユニットテスト実行";
             this.btnRunTest.UseVisualStyleBackColor = true;
-            this.btnRunTest.Click += new System.EventHandler(this.btnRunProgram_Click);
+            this.btnRunTest.Click += new System.EventHandler(this.btnRunTest_Click);
             // 
             // RunnerForm
             // 

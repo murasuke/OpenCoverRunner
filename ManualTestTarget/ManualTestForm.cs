@@ -33,7 +33,7 @@ namespace ManualTestTarget
 
             textBox3.Text = "";
 
-            if(!parseText(textBox1, out lhv)) 
+            if (!parseText(textBox1, out lhv))
             {
                 return;
             }
@@ -43,7 +43,7 @@ namespace ManualTestTarget
                 return;
             }
 
-            if ( rdoAdd.Checked)
+            if (rdoAdd.Checked)
             {
                 result = CalcLogic.Add(lhv, rhv);
             }
