@@ -1,6 +1,4 @@
-# 意識が低いプロジェクトでも出来る、手動テストのカバレッジ測定
-
-
+# 意識が低いプロジェクトでも出来る、手動テストのカバレッジ測定(.NET)
 
 [ソフトウェア品質を高める開発者テスト](https://www.amazon.co.jp/dp/4798165034)を読みました。
 自分がやっているテスト手法は20年前から変わっていませんが、グローバルスタンダードからは周回遅れにされていることに気が付きました。
@@ -36,13 +34,21 @@ NuGetでインストールします。
 
 インストールが面倒な場合[github.com/murasuke/OpenCoverRunner](https://github.com/murasuke/OpenCoverRunner)をCloneして、VS2017以降でビルドしてください（ビルド時に自動でインストールされます)
 
-* [opencover](https://github.com/OpenCover/opencover) カバレッジ測定ツール(カバレッジ収集結果を.xmlファイルに保存)
+* [OpenCover](https://github.com/OpenCover/opencover) カバレッジ測定ツール(カバレッジ収集結果を.xmlファイルに保存)
 
 * [ReportGenerator](ReportGenerator) レポート生成ツール(xmlからhtmlなど読みやすい形に成形)
 
   ※Visual Studioのカバレッジ測定ツールはEnterprise版が必要なため利用しません。
 
   ※UnitTest(MSTest、NUnit)も不要です（併用も可能)
+
+## コマンドライン
+
+### OpenCover
+  
+
+### ReportGenerator
+
 
 
 ## ソリューション構成
@@ -51,6 +57,8 @@ NuGetでインストールします。
   * OpenCoverRunnerForm   ・・・OpenCoverRunner本体
   * ManualTestTarget  ・・・動作確認用サンプルプログラム(手動テスト対象)
   * UnitTestProject　・・・ManualTestTargetのユニットテスト。Logicのみテストを行う(Formは対象外)
+
+
 ## 手順
 
 * Comming soon....
@@ -58,12 +66,12 @@ NuGetでインストールします。
 
 ## TODO
 
-* コマンドラインから実行する必要があり、実行がとても面倒(引数が多く、バッチファイルにしても設定が大変)
+* ✔コマンドラインから実行する必要があり、実行がとても面倒(引数が多く、バッチファイルにしても設定が大変)
 
   ⇒ カバレッジ測定をサポートする[WindowsFormプログラム](https://github.com/murasuke/OpenCoverRunner)を作成。プログラムのパスを設定して実行すれば、レポート生成まで行います。
-* MSTestと、手動テストを併用して、カバレッジのマージができるか確認する。
-* IIS(asp.net)のカバレッジ測定はできるか？設定はどうすればよいか？
-* exeから読み込むdllも一緒にカバレッジ測定できるのか？
+* ✔MSTestと、手動テストを併用して、カバレッジのマージができるか確認する。
+* ✔IIS(asp.net)のカバレッジ測定はできるか？設定はどうすればよいか？
+* ✔exeから読み込むdllも一緒にカバレッジ測定できるのか？
 * -historydir:history を指定すると、過去との比較ができる？
 
 * VS インストール調査
@@ -78,5 +86,3 @@ C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\devenv
 
 
 https://kuttsun.blogspot.com/2017/12/opencover.html
-
-MSTestとOpenCoverの併用

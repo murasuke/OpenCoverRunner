@@ -45,13 +45,20 @@
             this.txtOutputReportPath = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
-            this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.label8 = new System.Windows.Forms.Label();
             this.txtUnitTestDllPath = new System.Windows.Forms.TextBox();
             this.label9 = new System.Windows.Forms.Label();
             this.btnRunTest = new System.Windows.Forms.Button();
+            this.tabControl1 = new System.Windows.Forms.TabControl();
+            this.tabExePath = new System.Windows.Forms.TabPage();
+            this.tabWebAppPath = new System.Windows.Forms.TabPage();
+            this.label8 = new System.Windows.Forms.Label();
+            this.txtTestTargetWebAppPath = new System.Windows.Forms.TextBox();
+            this.btnRunWebApp = new System.Windows.Forms.Button();
+            this.textBox2 = new System.Windows.Forms.TextBox();
             this.grpSetting.SuspendLayout();
-            this.groupBox2.SuspendLayout();
+            this.tabControl1.SuspendLayout();
+            this.tabExePath.SuspendLayout();
+            this.tabWebAppPath.SuspendLayout();
             this.SuspendLayout();
             // 
             // txtTestTargetExePath
@@ -60,19 +67,18 @@
             this.txtTestTargetExePath.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txtTestTargetExePath.BackColor = System.Drawing.Color.LightCyan;
-            this.txtTestTargetExePath.Location = new System.Drawing.Point(12, 269);
+            this.txtTestTargetExePath.Location = new System.Drawing.Point(11, 29);
             this.txtTestTargetExePath.Name = "txtTestTargetExePath";
-            this.txtTestTargetExePath.Size = new System.Drawing.Size(832, 19);
+            this.txtTestTargetExePath.Size = new System.Drawing.Size(793, 19);
             this.txtTestTargetExePath.TabIndex = 0;
             this.txtTestTargetExePath.DragDrop += new System.Windows.Forms.DragEventHandler(this.txtTestTargetExePath_DragDrop);
             this.txtTestTargetExePath.DragEnter += new System.Windows.Forms.DragEventHandler(this.txtTestTargetExePath_DragEnter);
-            this.txtTestTargetExePath.Leave += new System.EventHandler(this.txtTestTargetExePath_Leave);
             // 
             // btnRunProgram
             // 
             this.btnRunProgram.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnRunProgram.Font = new System.Drawing.Font("MS UI Gothic", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.btnRunProgram.Location = new System.Drawing.Point(850, 253);
+            this.btnRunProgram.Location = new System.Drawing.Point(811, 13);
             this.btnRunProgram.Name = "btnRunProgram";
             this.btnRunProgram.Size = new System.Drawing.Size(113, 47);
             this.btnRunProgram.TabIndex = 1;
@@ -216,7 +222,7 @@
             // 
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("MS UI Gothic", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.label4.Location = new System.Drawing.Point(10, 253);
+            this.label4.Location = new System.Drawing.Point(9, 13);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(311, 13);
             this.label4.TabIndex = 4;
@@ -232,44 +238,24 @@
             this.label7.TabIndex = 4;
             this.label7.Text = resources.GetString("label7.Text");
             // 
-            // groupBox2
-            // 
-            this.groupBox2.Controls.Add(this.label8);
-            this.groupBox2.Location = new System.Drawing.Point(12, 347);
-            this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(832, 99);
-            this.groupBox2.TabIndex = 6;
-            this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "今後の機能追加メモ";
-            // 
-            // label8
-            // 
-            this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(15, 15);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(747, 72);
-            this.label8.TabIndex = 0;
-            this.label8.Text = resources.GetString("label8.Text");
-            // 
             // txtUnitTestDllPath
             // 
             this.txtUnitTestDllPath.AllowDrop = true;
             this.txtUnitTestDllPath.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txtUnitTestDllPath.BackColor = System.Drawing.Color.LightCyan;
-            this.txtUnitTestDllPath.Location = new System.Drawing.Point(13, 322);
+            this.txtUnitTestDllPath.Location = new System.Drawing.Point(10, 84);
             this.txtUnitTestDllPath.Name = "txtUnitTestDllPath";
-            this.txtUnitTestDllPath.Size = new System.Drawing.Size(832, 19);
+            this.txtUnitTestDllPath.Size = new System.Drawing.Size(794, 19);
             this.txtUnitTestDllPath.TabIndex = 0;
             this.txtUnitTestDllPath.DragDrop += new System.Windows.Forms.DragEventHandler(this.txtUnitTestDllPath_DragDrop);
             this.txtUnitTestDllPath.DragEnter += new System.Windows.Forms.DragEventHandler(this.txtUnitTestDllPath_DragEnter);
-            this.txtUnitTestDllPath.Leave += new System.EventHandler(this.txtUnitTestDllPath_Leave);
             // 
             // label9
             // 
             this.label9.AutoSize = true;
             this.label9.Font = new System.Drawing.Font("MS UI Gothic", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.label9.Location = new System.Drawing.Point(12, 306);
+            this.label9.Location = new System.Drawing.Point(9, 68);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(244, 13);
             this.label9.TabIndex = 4;
@@ -279,7 +265,7 @@
             // 
             this.btnRunTest.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnRunTest.Font = new System.Drawing.Font("MS UI Gothic", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.btnRunTest.Location = new System.Drawing.Point(850, 306);
+            this.btnRunTest.Location = new System.Drawing.Point(810, 68);
             this.btnRunTest.Name = "btnRunTest";
             this.btnRunTest.Size = new System.Drawing.Size(113, 47);
             this.btnRunTest.TabIndex = 1;
@@ -287,27 +273,110 @@
             this.btnRunTest.UseVisualStyleBackColor = true;
             this.btnRunTest.Click += new System.EventHandler(this.btnRunTest_Click);
             // 
+            // tabControl1
+            // 
+            this.tabControl1.Controls.Add(this.tabExePath);
+            this.tabControl1.Controls.Add(this.tabWebAppPath);
+            this.tabControl1.Location = new System.Drawing.Point(12, 236);
+            this.tabControl1.Name = "tabControl1";
+            this.tabControl1.SelectedIndex = 0;
+            this.tabControl1.Size = new System.Drawing.Size(937, 153);
+            this.tabControl1.TabIndex = 7;
+            // 
+            // tabExePath
+            // 
+            this.tabExePath.Controls.Add(this.label4);
+            this.tabExePath.Controls.Add(this.txtTestTargetExePath);
+            this.tabExePath.Controls.Add(this.btnRunTest);
+            this.tabExePath.Controls.Add(this.btnRunProgram);
+            this.tabExePath.Controls.Add(this.txtUnitTestDllPath);
+            this.tabExePath.Controls.Add(this.label9);
+            this.tabExePath.Location = new System.Drawing.Point(4, 22);
+            this.tabExePath.Name = "tabExePath";
+            this.tabExePath.Padding = new System.Windows.Forms.Padding(3);
+            this.tabExePath.Size = new System.Drawing.Size(929, 127);
+            this.tabExePath.TabIndex = 0;
+            this.tabExePath.Text = "実行可能プログラムの手動テスト";
+            this.tabExePath.UseVisualStyleBackColor = true;
+            // 
+            // tabWebAppPath
+            // 
+            this.tabWebAppPath.Controls.Add(this.label8);
+            this.tabWebAppPath.Controls.Add(this.txtTestTargetWebAppPath);
+            this.tabWebAppPath.Controls.Add(this.btnRunWebApp);
+            this.tabWebAppPath.Location = new System.Drawing.Point(4, 22);
+            this.tabWebAppPath.Name = "tabWebAppPath";
+            this.tabWebAppPath.Padding = new System.Windows.Forms.Padding(3);
+            this.tabWebAppPath.Size = new System.Drawing.Size(929, 127);
+            this.tabWebAppPath.TabIndex = 1;
+            this.tabWebAppPath.Text = "Webアプリケーションのテスト";
+            this.tabWebAppPath.UseVisualStyleBackColor = true;
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Font = new System.Drawing.Font("MS UI Gothic", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.label8.Location = new System.Drawing.Point(9, 13);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(410, 13);
+            this.label8.TabIndex = 7;
+            this.label8.Text = "テスト対象のWebアプリケーションフォルダパスを入力(Drag && Drop可能)";
+            // 
+            // txtTestTargetWebAppPath
+            // 
+            this.txtTestTargetWebAppPath.AllowDrop = true;
+            this.txtTestTargetWebAppPath.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtTestTargetWebAppPath.BackColor = System.Drawing.Color.LightCyan;
+            this.txtTestTargetWebAppPath.Location = new System.Drawing.Point(11, 29);
+            this.txtTestTargetWebAppPath.Name = "txtTestTargetWebAppPath";
+            this.txtTestTargetWebAppPath.Size = new System.Drawing.Size(793, 19);
+            this.txtTestTargetWebAppPath.TabIndex = 5;
+            this.txtTestTargetWebAppPath.DragDrop += new System.Windows.Forms.DragEventHandler(this.txtTestTargetWebAppPath_DragDrop);
+            this.txtTestTargetWebAppPath.DragEnter += new System.Windows.Forms.DragEventHandler(this.txtTestTargetWebAppPath_DragEnter);
+            // 
+            // btnRunWebApp
+            // 
+            this.btnRunWebApp.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnRunWebApp.Font = new System.Drawing.Font("MS UI Gothic", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.btnRunWebApp.Location = new System.Drawing.Point(811, 13);
+            this.btnRunWebApp.Name = "btnRunWebApp";
+            this.btnRunWebApp.Size = new System.Drawing.Size(113, 47);
+            this.btnRunWebApp.TabIndex = 6;
+            this.btnRunWebApp.Text = "テスト対象\r\nプログラム起動";
+            this.btnRunWebApp.UseVisualStyleBackColor = true;
+            this.btnRunWebApp.Click += new System.EventHandler(this.btnRunWebApp_Click);
+            // 
+            // textBox2
+            // 
+            this.textBox2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.textBox2.Location = new System.Drawing.Point(15, 433);
+            this.textBox2.Multiline = true;
+            this.textBox2.Name = "textBox2";
+            this.textBox2.ReadOnly = true;
+            this.textBox2.Size = new System.Drawing.Size(928, 96);
+            this.textBox2.TabIndex = 8;
+            // 
             // RunnerForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(975, 458);
-            this.Controls.Add(this.groupBox2);
+            this.ClientSize = new System.Drawing.Size(975, 518);
+            this.Controls.Add(this.textBox2);
+            this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.grpSetting);
-            this.Controls.Add(this.btnRunTest);
-            this.Controls.Add(this.btnRunProgram);
-            this.Controls.Add(this.txtUnitTestDllPath);
-            this.Controls.Add(this.txtTestTargetExePath);
             this.Controls.Add(this.label7);
-            this.Controls.Add(this.label9);
-            this.Controls.Add(this.label4);
             this.Name = "RunnerForm";
             this.Text = "OpenCoverRunnerForm";
             this.Load += new System.EventHandler(this.RunnerForm_Load);
             this.grpSetting.ResumeLayout(false);
             this.grpSetting.PerformLayout();
-            this.groupBox2.ResumeLayout(false);
-            this.groupBox2.PerformLayout();
+            this.tabControl1.ResumeLayout(false);
+            this.tabExePath.ResumeLayout(false);
+            this.tabExePath.PerformLayout();
+            this.tabWebAppPath.ResumeLayout(false);
+            this.tabWebAppPath.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -330,11 +399,16 @@
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.GroupBox groupBox2;
-        private System.Windows.Forms.Label label8;
         private System.Windows.Forms.TextBox txtUnitTestDllPath;
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.Button btnRunTest;
+        private System.Windows.Forms.TabControl tabControl1;
+        private System.Windows.Forms.TabPage tabExePath;
+        private System.Windows.Forms.TabPage tabWebAppPath;
+        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.TextBox txtTestTargetWebAppPath;
+        private System.Windows.Forms.Button btnRunWebApp;
+        private System.Windows.Forms.TextBox textBox2;
     }
 }
 
