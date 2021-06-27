@@ -20,15 +20,40 @@ namespace OpenCoverRunnerForm
 
         public string ReportGeneratorPath { get { return ConfigurationManager.AppSettings["ReportGeneratorPath"]; } }
 
+        public int IISExpressPort
+        {
+            get {
+                var config = ConfigurationManager.AppSettings["IISExpressPort"];
+                int port;
+                if (string.IsNullOrEmpty(config) || int.TryParse(config, out port))
+                {
+                    return 8080;
+                }
+                else
+                {
+                    return port;
+                }
+            }
+        }
+
         public string MSTestPath { get; set; } = "";
 
         public string OutputPath
         {
             get
             {
-                if (string.IsNullOrEmpty(txtTestTargetExePath.Text)) return "";
-                var outputPath = Path.Combine(Path.GetDirectoryName(txtTestTargetExePath.Text), "OpenCoverResult");
-                return outputPath;
+                if (tabControl.SelectedIndex == 0)
+                { 
+                    if (string.IsNullOrEmpty(txtTestTargetExePath.Text)) return "";
+                    var outputPath = Path.Combine(Path.GetDirectoryName(txtTestTargetExePath.Text), "OpenCoverResult");
+                    return outputPath;
+                }
+                else
+                {
+                    if (string.IsNullOrEmpty(txtTestTargetWebAppPath.Text)) return "";
+                    var outputPath = Path.Combine(txtTestTargetWebAppPath.Text, @"obj\OpenCoverResult");
+                    return outputPath;
+                }
             }
         }
 
@@ -66,6 +91,7 @@ namespace OpenCoverRunnerForm
             txtOpernCoverPath.Text = OpenCoverPath;
             txtReportGenerator.Text = ReportGeneratorPath;
             txtTestTargetExePath.Text = ConfigurationManager.AppSettings["TestTargetExePath"];
+            txtTestTargetWebAppPath.Text = ConfigurationManager.AppSettings["TestTargetWebAppPath"];
             txtOutputReportPath.Text = OutputPath;
         }
 
@@ -99,6 +125,7 @@ namespace OpenCoverRunnerForm
 
         private Tuple<int, string> ExecAndReadConsole(string path, string args, bool noWindow = true)
         {
+            Output.Text += $"{path} {args}\r\n\r\n";
             ProcessStartInfo psInfo = new ProcessStartInfo(path, args);
             psInfo.CreateNoWindow = noWindow;
             psInfo.UseShellExecute = false;
@@ -145,11 +172,11 @@ namespace OpenCoverRunnerForm
 
         private string GetReportGeneratorArgs(string outputPath, string testTarget)
         {
-            var reports = $"-reports:\"{Path.Combine(outputPath, "results.xml")}\"";
+            var reports = $@"-reports:""{Path.Combine(outputPath, "results.xml")}""";
             var reportType = "-reporttypes:HtmlInline;";
-            var targetdir = $"-targetdir:\"{Path.Combine(outputPath, "")}\"";
-            var classfilters = $"-classfilters:\"-{Path.GetFileNameWithoutExtension(testTarget)}.Properties.*\"";
-            var filefilters = $"-filefilters:\"-*.Designer.cs;\"";
+            var targetdir = $@"-targetdir:""{Path.Combine(outputPath, "")}""";
+            var classfilters = $@"-classfilters:""-{Path.GetFileNameWithoutExtension(testTarget)}.Properties.*""";
+            var filefilters = "";// $@"-filefilters:""-*.Designer.cs;""";
 
             var args = $"{reports} {reportType} {targetdir} {classfilters} {filefilters}";
 
@@ -161,9 +188,9 @@ namespace OpenCoverRunnerForm
         private string GetMSTestArgs(string outputPath, string msTestPath, string unitTestPath)
         {
             var outputFile = Path.Combine(outputPath, "results.xml");
-            var target = $"-target:\"{msTestPath}\"";
-            var targetargs = $"-targetargs:\"{unitTestPath}\"";
-            var output = $"-output:\"{outputFile}\"";
+            var target = $@"-target:""{msTestPath}""";
+            var targetargs = $@"-targetargs:""{unitTestPath}""";
+            var output = $@"-output:""{outputFile}""";
             var etcArgs = "-mergeoutput -register:user";
 
             var args = $"{target} {targetargs} {output} {etcArgs}";
@@ -172,17 +199,18 @@ namespace OpenCoverRunnerForm
             return args;
         }
 
-        private string GetOpenCoverWebArgs(string outputPath, string targetExe)
+        private string GetOpenCoverWebArgs(string outputPath, string targetWebApp)
         {
             var iisExp = @"C:\Program Files\IIS Express\iisexpress.exe";
-            var webAppArgs = @"/path:C:\Users\t_nii\source\repos\OpenCoverWebForm\OpenCoverWebForm /port:8081";
+            var webAppArgs = $@"/path:{targetWebApp} /port:""{IISExpressPort}""";
             var outputFile = Path.Combine(outputPath, "results.xml");
-            var target = $"-target:\"{iisExp}\"";
-            var targetargs = $"-targetargs:\"{webAppArgs}\"";
-            var output = $"-output:\"{outputFile}\"";
+            var target = $@"-target:""{iisExp}""";
+            var searchdirs = $@"-searchdirs:""{targetWebApp}\bin""";
+            var targetargs = $@"-targetargs:""{webAppArgs}""";
+            var output = $@"-output:""{outputFile}""";
             var etcArgs = "-mergeoutput -register:user";
 
-            var args = $"{target} {targetargs} {output} {etcArgs}";
+            var args = $"{target} {targetargs} {output} {searchdirs} {etcArgs}";
 
             Debug.WriteLine(args);
             return args;
@@ -206,6 +234,7 @@ namespace OpenCoverRunnerForm
             RunOpenCoverAndReport(args);
             Cursor.Current = Cursors.Default;
         }
+
         private void btnRunTest_Click(object sender, EventArgs e)
         {
             var target = txtTestTargetExePath.Text;
@@ -261,6 +290,10 @@ namespace OpenCoverRunnerForm
             Configuration config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
             config.AppSettings.Settings["TestTargetWebAppPath"].Value = target;
             config.Save();
+
+            // web.configから<compilation tempDirectory=""> を探す。見つからない場合は実行不可(メッセージを表示する)
+            // dllを探す(./obj/Debug/にあるdllとする。(
+            // tempDireco
 
             var args = GetOpenCoverWebArgs(OutputPath, target);
             Cursor.Current = Cursors.WaitCursor;
@@ -348,7 +381,7 @@ namespace OpenCoverRunnerForm
 
         private void txtUnitTestDllPath_DragDrop(object sender, DragEventArgs e)
         {
-            OnDragDrop(sender, e);
+            OnDragDrop(sender, e);            
         }
 
         private void txtTestTargetWebAppPath_DragEnter(object sender, DragEventArgs e)
@@ -359,10 +392,15 @@ namespace OpenCoverRunnerForm
         private void txtTestTargetWebAppPath_DragDrop(object sender, DragEventArgs e)
         {
             OnDragDrop(sender, e);
+            txtOutputReportPath.Text = OutputPath;
         }
+
 
         #endregion
 
-
+        private void tabControl_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            txtOutputReportPath.Text = this.OutputPath;
+        }
     }
 }
