@@ -25,6 +25,8 @@
 * カバレッジ測定からレポート生成までボタン一つで実行します(ツールのパスは起動時に検索するので、設定不要です)。
 * テスト対象のプログラムをフォームにDrag＆Dropして「実行」します。テスト実施後、プログラムを終了すると「カバレッジ」のレポートが表示される仕組みです。
 
+  ![OpenCoverRunner](./img/OpenCoverRunner.png)
+
 ## 特徴
 
 * UnitTestがないレガシーコードのみで構成されたプロジェクトでも、手動テストをすれば分岐漏れが確認できます(C1カバレッジができていることをエビデンスとして残せる)。
@@ -59,10 +61,6 @@ NuGetでインストールします。
   * OpenCoverWebForm　・・・動作確認用サンプルプログラム(ASP.NET Webフォーム)
   * UnitTestProject　・・・ManualTestTargetのユニットテスト。Logicのみテストを行う(Formは対象外)
 
-## 手順
-
-* Comming soon....
-
 
 ## 補足説明・・・コマンドライン(最低限必要な設定のみ抜粋)
 
@@ -86,25 +84,13 @@ NuGetでインストールします。
 
 ## その他雑記(まとめ中)
 
-* ✔コマンドラインから実行する必要があり、実行がとても面倒(引数が多く、バッチファイルにしても設定が大変)
-
-  ⇒ カバレッジ測定をサポートする[WindowsFormプログラム](https://github.com/murasuke/OpenCoverRunner)を作成。プログラムのパスを設定して実行すれば、レポート生成まで行います。
-* ✔MSTestと、手動テストを併用して、カバレッジのマージができるか確認する。
-* ✔IIS(asp.net)のカバレッジ測定はできるか？設定はどうすればよいか？
-
-  * ⇒IISExpressで可能だが制限がある(asp.net webforms)。pdbが見つからない。⇒pdf検索箇所を明示的に指定すれば解決
-* ✔exeから読み込むdllも一緒にカバレッジ測定できるのか？
-* -historydir:history を指定すると、過去との比較ができる？
-
-* VS インストール調査
-C:\Program Files (x86)\Microsoft Visual Studio\Installer> vswhere.exe -legacy -prerelease -format json
-
-vswhere.exe は環境変数 %ProgramFiles% と %ProgramFiles(x86)% 双方の下の Microsoft Visual Studio\Installer から探す
-
-```
-vswhere.exe -latest -property productpath
-C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\devenv.exe
-```
+* -historydir:history を指定すると、過去との比較ができる？要確認
+* プログラムをコマンドラインから起動する事ができるようにする。(対応中)
 
 
-https://kuttsun.blogspot.com/2017/12/opencover.html
+| 引数 | 値 |説明 |
+|-----------|------------|------------|
+| 引数なし | |フォームを起動し画面から操作する |
+| 引数1つ| 拡張子.exe | 引数で与えられたプログラムを起動する。終了後レポートを生成|
+| 引数1つ|フォルダ | asp.netとみなして、IISExpressで起動。タスクトレイから終了するとレポートを生成。<br>(タスクトレイに表示するため、IISExpressの引数を変更する) |
+| 引数2 | -showresult |終了後、レポートをブラウザで開く。未指定の場合はレポート生成のみ|

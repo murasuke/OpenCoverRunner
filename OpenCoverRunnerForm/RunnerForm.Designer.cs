@@ -41,10 +41,9 @@
             this.btnOpernCoverPath = new System.Windows.Forms.Button();
             this.label6 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
+            this.lblReportPath = new System.Windows.Forms.Label();
             this.txtOutputReportPath = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
-            this.label7 = new System.Windows.Forms.Label();
             this.txtUnitTestDllPath = new System.Windows.Forms.TextBox();
             this.label9 = new System.Windows.Forms.Label();
             this.btnRunTest = new System.Windows.Forms.Button();
@@ -54,13 +53,17 @@
             this.label8 = new System.Windows.Forms.Label();
             this.txtTestTargetWebAppPath = new System.Windows.Forms.TextBox();
             this.btnRunWebApp = new System.Windows.Forms.Button();
+            this.label11 = new System.Windows.Forms.Label();
             this.Output = new System.Windows.Forms.TextBox();
             this.label10 = new System.Windows.Forms.Label();
-            this.label11 = new System.Windows.Forms.Label();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.label7 = new System.Windows.Forms.Label();
+            this.lblPrevReport = new System.Windows.Forms.Label();
             this.grpSetting.SuspendLayout();
             this.tabControl.SuspendLayout();
             this.tabExePath.SuspendLayout();
             this.tabWebAppPath.SuspendLayout();
+            this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
             // txtTestTargetExePath
@@ -139,12 +142,13 @@
             this.grpSetting.Controls.Add(this.label1);
             this.grpSetting.Controls.Add(this.label6);
             this.grpSetting.Controls.Add(this.label5);
-            this.grpSetting.Controls.Add(this.label3);
+            this.grpSetting.Controls.Add(this.lblPrevReport);
+            this.grpSetting.Controls.Add(this.lblReportPath);
             this.grpSetting.Controls.Add(this.label2);
             this.grpSetting.Controls.Add(this.txtOpernCoverPath);
             this.grpSetting.Controls.Add(this.txtOutputReportPath);
             this.grpSetting.Controls.Add(this.txtReportGenerator);
-            this.grpSetting.Location = new System.Drawing.Point(12, 74);
+            this.grpSetting.Location = new System.Drawing.Point(12, 78);
             this.grpSetting.Name = "grpSetting";
             this.grpSetting.Size = new System.Drawing.Size(933, 159);
             this.grpSetting.TabIndex = 5;
@@ -204,15 +208,15 @@
             this.label5.Text = "テスト対象フォルダ配下に「OpenCoverResult」をフォルダ作成し、そこにレポートファイル「index.html」ができます。\r\n複数回「プログラム実行」" +
     "を行った場合、テスト結果(カバレッジ率)をマージします。最初から計測したい場合は「クリア」してください。";
             // 
-            // label3
+            // lblReportPath
             // 
-            this.label3.AutoSize = true;
-            this.label3.Font = new System.Drawing.Font("MS UI Gothic", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.label3.Location = new System.Drawing.Point(15, 109);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(93, 12);
-            this.label3.TabIndex = 4;
-            this.label3.Text = "レポート出力パス";
+            this.lblReportPath.AutoSize = true;
+            this.lblReportPath.Font = new System.Drawing.Font("MS UI Gothic", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.lblReportPath.Location = new System.Drawing.Point(15, 109);
+            this.lblReportPath.Name = "lblReportPath";
+            this.lblReportPath.Size = new System.Drawing.Size(93, 12);
+            this.lblReportPath.TabIndex = 4;
+            this.lblReportPath.Text = "レポート出力パス";
             // 
             // txtOutputReportPath
             // 
@@ -223,6 +227,7 @@
             this.txtOutputReportPath.ReadOnly = true;
             this.txtOutputReportPath.Size = new System.Drawing.Size(677, 19);
             this.txtOutputReportPath.TabIndex = 3;
+            this.txtOutputReportPath.TextChanged += new System.EventHandler(this.txtOutputReportPath_TextChanged);
             // 
             // label4
             // 
@@ -233,16 +238,6 @@
             this.label4.Size = new System.Drawing.Size(344, 13);
             this.label4.TabIndex = 4;
             this.label4.Text = "テスト対象のプログラム(exe)パスを入力(Drag && Drop可能)";
-            // 
-            // label7
-            // 
-            this.label7.AutoSize = true;
-            this.label7.Font = new System.Drawing.Font("MS UI Gothic", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.label7.Location = new System.Drawing.Point(12, 5);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(901, 60);
-            this.label7.TabIndex = 4;
-            this.label7.Text = resources.GetString("label7.Text");
             // 
             // txtUnitTestDllPath
             // 
@@ -263,9 +258,9 @@
             this.label9.Font = new System.Drawing.Font("MS UI Gothic", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.label9.Location = new System.Drawing.Point(9, 68);
             this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(216, 13);
+            this.label9.Size = new System.Drawing.Size(416, 13);
             this.label9.TabIndex = 4;
-            this.label9.Text = "任意：ユニットテスト(dll)のパスを入力";
+            this.label9.Text = "任意：ユニットテスト(dll)のパスを入力(手動テストの結果とマージされます)";
             // 
             // btnRunTest
             // 
@@ -285,7 +280,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.tabControl.Controls.Add(this.tabExePath);
             this.tabControl.Controls.Add(this.tabWebAppPath);
-            this.tabControl.Location = new System.Drawing.Point(12, 239);
+            this.tabControl.Location = new System.Drawing.Point(12, 244);
             this.tabControl.Name = "tabControl";
             this.tabControl.SelectedIndex = 0;
             this.tabControl.Size = new System.Drawing.Size(933, 153);
@@ -358,28 +353,6 @@
             this.btnRunWebApp.UseVisualStyleBackColor = false;
             this.btnRunWebApp.Click += new System.EventHandler(this.btnRunWebApp_Click);
             // 
-            // Output
-            // 
-            this.Output.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.Output.Location = new System.Drawing.Point(16, 410);
-            this.Output.Multiline = true;
-            this.Output.Name = "Output";
-            this.Output.ReadOnly = true;
-            this.Output.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.Output.Size = new System.Drawing.Size(925, 101);
-            this.Output.TabIndex = 8;
-            // 
-            // label10
-            // 
-            this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(14, 395);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(46, 12);
-            this.label10.TabIndex = 4;
-            this.label10.Text = "Console";
-            // 
             // label11
             // 
             this.label11.AutoSize = true;
@@ -390,19 +363,72 @@
             this.label11.Text = "・IISExpressコンソールが起動します。portは「8080」です(app.configで変更できます)。\r\n・ブラウザでコンソールに表示されているURLを" +
     "開きテストします。\r\n・テスト終了後、コンソール画面に切り替えてから「q」キーを押すとIISExpressが終了し、レポートが表示されます。";
             // 
+            // Output
+            // 
+            this.Output.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.Output.Location = new System.Drawing.Point(16, 415);
+            this.Output.Multiline = true;
+            this.Output.Name = "Output";
+            this.Output.ReadOnly = true;
+            this.Output.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.Output.Size = new System.Drawing.Size(925, 101);
+            this.Output.TabIndex = 8;
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Location = new System.Drawing.Point(14, 401);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(46, 12);
+            this.label10.TabIndex = 4;
+            this.label10.Text = "Console";
+            // 
+            // groupBox1
+            // 
+            this.groupBox1.Controls.Add(this.label7);
+            this.groupBox1.Font = new System.Drawing.Font("MS UI Gothic", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.groupBox1.Location = new System.Drawing.Point(12, 3);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(929, 59);
+            this.groupBox1.TabIndex = 9;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "プログラム概要";
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Font = new System.Drawing.Font("MS UI Gothic", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.label7.Location = new System.Drawing.Point(15, 15);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(454, 36);
+            this.label7.TabIndex = 0;
+            this.label7.Text = " ・テスト対象のプログラムを指定後、「プログラム起動」ボタンをクリックします。\r\n ・プログラムを終了すると、カバレッジのレポートを表示します(ブラウザを起動して" +
+    "表示)。\r\n ・「OpenCover」と「ReportGenerator]を「NuGetパッケージの管理」からインストールしてください)。";
+            // 
+            // lblPrevReport
+            // 
+            this.lblPrevReport.AutoSize = true;
+            this.lblPrevReport.Font = new System.Drawing.Font("MS UI Gothic", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.lblPrevReport.Location = new System.Drawing.Point(35, 127);
+            this.lblPrevReport.Name = "lblPrevReport";
+            this.lblPrevReport.Size = new System.Drawing.Size(0, 12);
+            this.lblPrevReport.TabIndex = 4;
+            // 
             // RunnerForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(957, 528);
+            this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.Output);
             this.Controls.Add(this.tabControl);
             this.Controls.Add(this.grpSetting);
             this.Controls.Add(this.label10);
-            this.Controls.Add(this.label7);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "RunnerForm";
-            this.Text = "OpenCoverRunnerForm";
+            this.Text = "カバレッジ測定ツール(.NET Framework exe, asp.net)";
             this.Load += new System.EventHandler(this.RunnerForm_Load);
             this.grpSetting.ResumeLayout(false);
             this.grpSetting.PerformLayout();
@@ -411,6 +437,8 @@
             this.tabExePath.PerformLayout();
             this.tabWebAppPath.ResumeLayout(false);
             this.tabWebAppPath.PerformLayout();
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -426,13 +454,12 @@
         private System.Windows.Forms.GroupBox grpSetting;
         private System.Windows.Forms.Button btnReportGenerator;
         private System.Windows.Forms.Button btnOpernCoverPath;
-        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label lblReportPath;
         private System.Windows.Forms.TextBox txtOutputReportPath;
         private System.Windows.Forms.Button btnClearOutput;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.Label label7;
         private System.Windows.Forms.TextBox txtUnitTestDllPath;
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.Button btnRunTest;
@@ -445,6 +472,9 @@
         private System.Windows.Forms.TextBox Output;
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.Label label11;
+        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.Label lblPrevReport;
     }
 }
 

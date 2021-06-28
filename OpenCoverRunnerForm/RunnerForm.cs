@@ -291,10 +291,6 @@ namespace OpenCoverRunnerForm
             config.AppSettings.Settings["TestTargetWebAppPath"].Value = target;
             config.Save();
 
-            // web.configから<compilation tempDirectory=""> を探す。見つからない場合は実行不可(メッセージを表示する)
-            // dllを探す(./obj/Debug/にあるdllとする。(
-            // tempDireco
-
             var args = GetOpenCoverWebArgs(OutputPath, target);
             Cursor.Current = Cursors.WaitCursor;
             RunOpenCoverAndReport(args, false);
@@ -338,6 +334,7 @@ namespace OpenCoverRunnerForm
                 if (MessageBox.Show("前回までの実行履歴をクリアしますか？", "確認", MessageBoxButtons.OKCancel) == DialogResult.OK)
                 {
                     Directory.Delete(txtOutputReportPath.Text, true);
+                    lblPrevReport.Text = "";
                 }
             }
         }
@@ -401,6 +398,19 @@ namespace OpenCoverRunnerForm
         private void tabControl_SelectedIndexChanged(object sender, EventArgs e)
         {
             txtOutputReportPath.Text = this.OutputPath;
+
+        }
+
+        private void txtOutputReportPath_TextChanged(object sender, EventArgs e)
+        {
+            if (File.Exists(Path.Combine(this.OutputPath, "results.xml")))
+            {
+                lblPrevReport.Text = "【前回レポート有り】";
+            }
+            else
+            {
+                lblPrevReport.Text = "";
+            }
         }
     }
 }
