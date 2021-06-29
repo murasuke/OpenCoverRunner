@@ -1,21 +1,49 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Configuration;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace OpenCoverRunnerForm
 {
     public class RunnerLogic
     {
+        public RunnerLogic()
+        {
+            MSTestPath = SearchVSTestPath();
+
+
+            Configuration config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
+            if (string.IsNullOrEmpty(OpenCoverPath))
+            {
+                var paths = SearchInNugetPath("OpenCover.Console.exe");
+                if (paths.Length > 0)
+                {
+                    // TODO:複数バージョンインストールされている場合、バージョンが最も新しいファイルを探す
+                    config.AppSettings.Settings["OpenCoverPath"].Value = paths[0];
+                    config.Save();
+                }
+            }
+
+            if (string.IsNullOrEmpty(ReportGeneratorPath))
+            {
+                var paths = SearchInNugetPath("ReportGenerator.exe");
+                if (paths.Length > 0)
+                {
+                    // TODO:複数バージョンインストールされている場合、バージョンが最も新しいファイルを探す
+                    var net47 = paths.FirstOrDefault(item => item.Contains("\\net47"));
+                    config.AppSettings.Settings["ReportGeneratorPath"].Value = net47;
+                    config.Save();
+                }
+            }
+        }
+
         public readonly string NuGetPath = $@"{Environment.GetFolderPath(Environment.SpecialFolder.UserProfile)}\.nuget\packages";
 
-        public string OpenCoverPath { get { return ConfigurationManager.AppSettings["OpenCoverPath"]; } }
+        public string OpenCoverPath { get => ConfigurationManager.AppSettings["OpenCoverPath"]; } 
 
-        public string ReportGeneratorPath { get { return ConfigurationManager.AppSettings["ReportGeneratorPath"]; } }
+        public string ReportGeneratorPath { get => ConfigurationManager.AppSettings["ReportGeneratorPath"]; }
 
         public int IISExpressPort
         {
@@ -36,34 +64,31 @@ namespace OpenCoverRunnerForm
 
         public string MSTestPath { get; set; } = "";
 
-        public int tabSelectedIncex = 0;
+        public int tabSelectedIndex { get; set; } = 0;
+        public string TestTargetExePath { get; set; } = "";
+        public string TestTargetWebAppPath { get; set; } = "";
 
         public string OutputPath
         {
             get
             {
-                //if (tabSelectedIncex == 0)
-                //{
-                //    if (string.IsNullOrEmpty(txtTestTargetExePath.Text)) return "";
-                //    var outputPath = Path.Combine(Path.GetDirectoryName(txtTestTargetExePath.Text), "OpenCoverResult");
-                //    return outputPath;
-                //}
-                //else
-                //{
-                //    if (string.IsNullOrEmpty(txtTestTargetWebAppPath.Text)) return "";
-                //    var outputPath = Path.Combine(txtTestTargetWebAppPath.Text, @"obj\OpenCoverResult");
-                //    return outputPath;
-                //}
-                return "";
+                if (tabSelectedIndex == 0)
+                {
+                    if (string.IsNullOrEmpty(TestTargetExePath)) return "";
+                    var outputPath = Path.Combine(Path.GetDirectoryName(TestTargetExePath), "OpenCoverResult");
+                    return outputPath;
+                }
+                else
+                {
+                    if (string.IsNullOrEmpty(TestTargetWebAppPath)) return "";
+                    var outputPath = Path.Combine(TestTargetWebAppPath, @"obj\OpenCoverResult");
+                    return outputPath;
+                }
             }
         }
 
-        public RunnerLogic()
-        {
 
-        }
-
-        private string SearchVSTestPath()
+        public string SearchVSTestPath()
         {
             Func<string, string> SearchVSTestPathSub = (string basePath) =>
             {
@@ -92,7 +117,7 @@ namespace OpenCoverRunnerForm
         }
 
 
-        private Tuple<int, string> ExecAndReadConsole(string path, string args, bool noWindow = true)
+        public Tuple<int, string> ExecAndReadConsole(string path, string args, bool noWindow = true)
         {
             //Output.Text += $"{path} {args}\r\n\r\n";
             ProcessStartInfo psInfo = new ProcessStartInfo(path, args);
@@ -113,14 +138,14 @@ namespace OpenCoverRunnerForm
             return new Tuple<int, string>(ps.ExitCode, stdout);
         }
 
-        private string[] SearchInNugetPath(string exeName)
+        public string[] SearchInNugetPath(string exeName)
         {
             var paths = Directory.GetFiles(NuGetPath, exeName, SearchOption.AllDirectories);
             return paths;
         }
 
 
-        private string GetOpenCoverExeArgs(string outputPath, string targetExe)
+        public string GetOpenCoverExeArgs(string outputPath, string targetExe)
         {
             var outputFile = Path.Combine(outputPath, "results.xml");
             var target = $"-target:\"{targetExe}\"";
@@ -138,7 +163,7 @@ namespace OpenCoverRunnerForm
             return args;
         }
 
-        private string GetReportGeneratorArgs(string outputPath, string testTarget)
+        public string GetReportGeneratorArgs(string outputPath, string testTarget)
         {
             var reports = $@"-reports:""{Path.Combine(outputPath, "results.xml")}""";
             var reportType = "-reporttypes:HtmlInline;";
@@ -153,7 +178,7 @@ namespace OpenCoverRunnerForm
         }
 
 
-        private string GetMSTestArgs(string outputPath, string msTestPath, string unitTestPath)
+        public string GetMSTestArgs(string outputPath, string msTestPath, string unitTestPath)
         {
             var outputFile = Path.Combine(outputPath, "results.xml");
             var target = $@"-target:""{msTestPath}""";
@@ -167,7 +192,7 @@ namespace OpenCoverRunnerForm
             return args;
         }
 
-        private string GetOpenCoverWebArgs(string outputPath, string targetWebApp)
+        public string GetOpenCoverWebArgs(string outputPath, string targetWebApp)
         {
             var iisExp = @"C:\Program Files\IIS Express\iisexpress.exe";
             var webAppArgs = $@"/path:{targetWebApp} /port:""{IISExpressPort}""";
@@ -182,6 +207,29 @@ namespace OpenCoverRunnerForm
 
             Debug.WriteLine(args);
             return args;
+        }
+
+        public bool IsFormApp()
+        {
+            return Application.OpenForms.Count > 0;
+        }
+
+        public bool RunOpenCoverAndReport(string execTarget, bool noWindow = true)
+        {
+            if (!Directory.Exists(OutputPath))
+            {
+                Directory.CreateDirectory(OutputPath);
+            }
+
+            if (ExecAndReadConsole(OpenCoverPath, execTarget, noWindow).Item1 == 0)
+            {
+                if (ExecAndReadConsole(ReportGeneratorPath, GetReportGeneratorArgs(OutputPath, TestTargetExePath)).Item1 == 0)
+                {
+                    return true;
+   
+                }
+            }
+            return false;
         }
     }
 }
