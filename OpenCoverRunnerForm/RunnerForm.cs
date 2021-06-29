@@ -14,79 +14,34 @@ namespace OpenCoverRunnerForm
             InitializeComponent();
         }
 
-        public readonly string NuGetPath = $@"{Environment.GetFolderPath(Environment.SpecialFolder.UserProfile)}\.nuget\packages";
+        public RunnerLogic logic = new RunnerLogic();
 
-        public string OpenCoverPath { get { return ConfigurationManager.AppSettings["OpenCoverPath"]; } }
 
-        public string ReportGeneratorPath { get { return ConfigurationManager.AppSettings["ReportGeneratorPath"]; } }
+        public string NuGetPath { get =>  logic.NuGetPath; }
 
-        public int IISExpressPort
+        public string OpenCoverPath { get => logic.OpenCoverPath; } 
+
+        public string ReportGeneratorPath { get => logic.ReportGeneratorPath; }
+
+        public int IISExpressPort { get => logic.IISExpressPort; }
+
+        public string MSTestPath
         {
-            get {
-                var config = ConfigurationManager.AppSettings["IISExpressPort"];
-                int port;
-                if (string.IsNullOrEmpty(config) || int.TryParse(config, out port))
-                {
-                    return 8080;
-                }
-                else
-                {
-                    return port;
-                }
-            }
+            get => logic.MSTestPath;
+            set => logic.MSTestPath = value;
         }
-
-        public string MSTestPath { get; set; } = "";
 
         public string OutputPath
         {
             get
             {
-                if (tabControl.SelectedIndex == 0)
-                { 
-                    if (string.IsNullOrEmpty(txtTestTargetExePath.Text)) return "";
-                    var outputPath = Path.Combine(Path.GetDirectoryName(txtTestTargetExePath.Text), "OpenCoverResult");
-                    return outputPath;
-                }
-                else
-                {
-                    if (string.IsNullOrEmpty(txtTestTargetWebAppPath.Text)) return "";
-                    var outputPath = Path.Combine(txtTestTargetWebAppPath.Text, @"obj\OpenCoverResult");
-                    return outputPath;
-                }
+                logic.tabSelectedIndex = tabControl.SelectedIndex;
+                return logic.OutputPath;
             }
         }
 
         private void RunnerForm_Load(object sender, EventArgs e)
         {
-            // todo: Visual Studioのインストール先を取得する。MSTestのパスを見つけるため
-            MSTestPath = SearchVSTestPath();
-
-
-            Configuration config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
-            if (string.IsNullOrEmpty(OpenCoverPath))
-            {
-                var paths = SearchInNugetPath("OpenCover.Console.exe");
-                if (paths.Length > 0)
-                {
-                    // TODO:複数バージョンインストールされている場合、バージョンが最も新しいファイルを探す
-                    config.AppSettings.Settings["OpenCoverPath"].Value = paths[0];
-                    config.Save();
-                }
-            }
-
-            if (string.IsNullOrEmpty(ReportGeneratorPath))
-            {
-                var paths = SearchInNugetPath("ReportGenerator.exe");
-                if (paths.Length > 0)
-                {
-                    // TODO:複数バージョンインストールされている場合、バージョンが最も新しいファイルを探す
-                    var net47 = paths.FirstOrDefault(item => item.Contains("\\net47"));
-                    config.AppSettings.Settings["ReportGeneratorPath"].Value = net47;
-                    config.Save();
-                }
-            }
-
             ConfigurationManager.RefreshSection("appSettings");
             txtOpernCoverPath.Text = OpenCoverPath;
             txtReportGenerator.Text = ReportGeneratorPath;
@@ -97,123 +52,38 @@ namespace OpenCoverRunnerForm
 
         private string SearchVSTestPath()
         {
-            Func<string, string> SearchVSTestPathSub = (string basePath) =>
-            {
-                var installerPath = Path.Combine(basePath, @"Microsoft Visual Studio\Installer\vswhere.exe");
-                if (File.Exists(installerPath))
-                {
-                    var result = ExecAndReadConsole(installerPath, " -latest -property installationPath");
-                    if (result.Item1 == -0)
-                    {
-                        return Path.Combine(result.Item2, @"Common7\IDE\CommonExtensions\Microsoft\TestWindow\vstest.console.exe");
-                    }
-                }
-                return "";
-            };
-
-            // 64bit OSの場合はProgramFiles(x86), 32bitの場合はProgramFilesにインストールされる
-            var programFiles86 = Environment.GetEnvironmentVariable("ProgramFiles(x86)");
-            var vsTest86 = SearchVSTestPathSub(programFiles86);
-            if (string.IsNullOrEmpty(vsTest86))
-            {
-                var programFiles = Environment.GetEnvironmentVariable("ProgramFiles");
-                return SearchVSTestPathSub(programFiles);
-
-            }
-            return vsTest86;
+            return logic.SearchVSTestPath();
         }
 
         private Tuple<int, string> ExecAndReadConsole(string path, string args, bool noWindow = true)
         {
-            Output.Text += $"{path} {args}\r\n\r\n";
-            ProcessStartInfo psInfo = new ProcessStartInfo(path, args);
-            psInfo.CreateNoWindow = noWindow;
-            psInfo.UseShellExecute = false;
-            psInfo.RedirectStandardOutput = noWindow; // 標準出力をリダイレクト
-            psInfo.RedirectStandardError = noWindow;
-            var ps = Process.Start(psInfo);
-
-            var stdout = "";
-            if (noWindow)
-            {
-                stdout = ps.StandardOutput.ReadToEnd().TrimEnd();
-                Debug.Write(ps.StandardError.ReadToEnd());
-            }
-
-            ps.WaitForExit();
-            return new Tuple<int, string>(ps.ExitCode, stdout);
+            return logic.ExecAndReadConsole(path, args, noWindow);
         }
 
         private string[] SearchInNugetPath(string exeName)
         {
-            var paths = Directory.GetFiles(NuGetPath, exeName, SearchOption.AllDirectories);
-            return paths;
+            return logic.SearchInNugetPath(exeName);
         }
-
-
 
         private string GetOpenCoverExeArgs(string outputPath, string targetExe)
         {
-            var outputFile = Path.Combine(outputPath, "results.xml");
-            var target = $"-target:\"{targetExe}\"";
-            var output = $"-output:\"{outputFile}\"";
-            var etcArgs = "-mergeoutput -register:user";
-
-            if (!Directory.Exists(OutputPath))
-            {
-                Directory.CreateDirectory(OutputPath);
-            }
-
-            var args = $"{target} {output} {etcArgs}";
-
-            Debug.WriteLine(args);
-            return args;
+            return logic.GetOpenCoverExeArgs(outputPath, targetExe);
         }
 
         private string GetReportGeneratorArgs(string outputPath, string testTarget)
         {
-            var reports = $@"-reports:""{Path.Combine(outputPath, "results.xml")}""";
-            var reportType = "-reporttypes:HtmlInline;";
-            var targetdir = $@"-targetdir:""{Path.Combine(outputPath, "")}""";
-            var classfilters = $@"-classfilters:""-{Path.GetFileNameWithoutExtension(testTarget)}.Properties.*""";
-            var filefilters = "";// $@"-filefilters:""-*.Designer.cs;""";
-
-            var args = $"{reports} {reportType} {targetdir} {classfilters} {filefilters}";
-
-            Debug.WriteLine(args);
-            return args;
+             return logic.GetReportGeneratorArgs(outputPath, testTarget);
         }
 
 
         private string GetMSTestArgs(string outputPath, string msTestPath, string unitTestPath)
         {
-            var outputFile = Path.Combine(outputPath, "results.xml");
-            var target = $@"-target:""{msTestPath}""";
-            var targetargs = $@"-targetargs:""{unitTestPath}""";
-            var output = $@"-output:""{outputFile}""";
-            var etcArgs = "-mergeoutput -register:user";
-
-            var args = $"{target} {targetargs} {output} {etcArgs}";
-
-            Debug.WriteLine(args);
-            return args;
+             return logic.GetMSTestArgs(outputPath, msTestPath, unitTestPath);
         }
 
         private string GetOpenCoverWebArgs(string outputPath, string targetWebApp)
         {
-            var iisExp = @"C:\Program Files\IIS Express\iisexpress.exe";
-            var webAppArgs = $@"/path:{targetWebApp} /port:""{IISExpressPort}""";
-            var outputFile = Path.Combine(outputPath, "results.xml");
-            var target = $@"-target:""{iisExp}""";
-            var searchdirs = $@"-searchdirs:""{targetWebApp}\bin""";
-            var targetargs = $@"-targetargs:""{webAppArgs}""";
-            var output = $@"-output:""{outputFile}""";
-            var etcArgs = "-mergeoutput -register:user";
-
-            var args = $"{target} {targetargs} {output} {searchdirs} {etcArgs}";
-
-            Debug.WriteLine(args);
-            return args;
+            return logic.GetOpenCoverWebArgs(outputPath, targetWebApp);
         }
 
 
@@ -231,7 +101,14 @@ namespace OpenCoverRunnerForm
 
             var args = GetOpenCoverExeArgs(OutputPath, target);
             Cursor.Current = Cursors.WaitCursor;
-            RunOpenCoverAndReport(args);
+            if (RunOpenCoverAndReport(args) )
+            {
+                var dialogResult = MessageBox.Show("生成したレポートファイルを開きますか？", "処理完了", MessageBoxButtons.YesNo);
+                if (dialogResult == DialogResult.Yes)
+                {
+                    Process.Start($@"{OutputPath}\index.htm");
+                }
+            }
             Cursor.Current = Cursors.Default;
         }
 
@@ -255,28 +132,20 @@ namespace OpenCoverRunnerForm
 
             var args = GetMSTestArgs(OutputPath, MSTestPath, unitTest);
             Cursor.Current = Cursors.WaitCursor;
-            RunOpenCoverAndReport(args);
+            if (RunOpenCoverAndReport(args))
+            {
+                var dialogResult = MessageBox.Show("生成したレポートファイルを開きますか？", "処理完了", MessageBoxButtons.YesNo);
+                if (dialogResult == DialogResult.Yes)
+                {
+                    Process.Start($@"{OutputPath}\index.htm");
+                }
+            }
             Cursor.Current = Cursors.Default;
         }
 
-        private void RunOpenCoverAndReport(string execTarget, bool noWindow = true)
+        private bool RunOpenCoverAndReport(string execTarget, bool noWindow = true)
         {
-            if (!Directory.Exists(OutputPath))
-            {
-                Directory.CreateDirectory(OutputPath);
-            }
-
-            if (ExecAndReadConsole(OpenCoverPath, execTarget, noWindow).Item1 == 0)
-            {
-                if (ExecAndReadConsole(ReportGeneratorPath, GetReportGeneratorArgs(OutputPath, txtTestTargetExePath.Text)).Item1 == 0)
-                {
-                    var dialogResult = MessageBox.Show("生成したレポートファイルを開きますか？", "処理完了", MessageBoxButtons.YesNo);
-                    if (dialogResult == DialogResult.Yes)
-                    {
-                        Process.Start($@"{OutputPath}\index.htm");
-                    }
-                }
-            }
+            return logic.RunOpenCoverAndReport(execTarget, noWindow);
         }
 
         private void btnRunWebApp_Click(object sender, EventArgs e)
@@ -293,22 +162,29 @@ namespace OpenCoverRunnerForm
 
             var args = GetOpenCoverWebArgs(OutputPath, target);
             Cursor.Current = Cursors.WaitCursor;
-            RunOpenCoverAndReport(args, false);
+            if (RunOpenCoverAndReport(args, false))
+            {
+                var dialogResult = MessageBox.Show("生成したレポートファイルを開きますか？", "処理完了", MessageBoxButtons.YesNo);
+                if (dialogResult == DialogResult.Yes)
+                {
+                    Process.Start($@"{OutputPath}\index.htm");
+                }
+            }
             Cursor.Current = Cursors.Default;
         }
 
 
         private void btnOpernCoverPath_Click(object sender, EventArgs e)
         {
-            txtOpernCoverPath.Text = OpenFileDialog("OpenCover.Console.exe");
+            txtOpernCoverPath.Text = OpenFileDialog("OpenCover.Console.exe", txtOpernCoverPath.Text);
         }
 
         private void btnReportGenerator_Click(object sender, EventArgs e)
         {
-            txtReportGenerator.Text = OpenFileDialog("ReportGenerator.exe");
+            txtReportGenerator.Text = OpenFileDialog("ReportGenerator.exe", txtReportGenerator.Text);
         }
 
-        private string OpenFileDialog(string fileName)
+        private string OpenFileDialog(string fileName, string originalPath)
         {
             using (var ofd = new OpenFileDialog())
             {
@@ -321,10 +197,10 @@ namespace OpenCoverRunnerForm
 
                 if (ofd.ShowDialog() == DialogResult.OK)
                 {
-                    return ofd.FileName;
+                    return  ofd.FileName;
                 }
             }
-            return "";
+            return originalPath;
         }
 
         private void btnClearOutput_Click(object sender, EventArgs e)
@@ -337,6 +213,16 @@ namespace OpenCoverRunnerForm
                     lblPrevReport.Text = "";
                 }
             }
+        }
+
+        private void txtTestTargetExePath_TextChanged(object sender, EventArgs e)
+        {
+            logic.TestTargetExePath = txtTestTargetExePath.Text;
+        }
+
+        private void txtTestTargetWebAppPath_TextChanged(object sender, EventArgs e)
+        {
+            logic.TestTargetWebAppPath = txtTestTargetWebAppPath.Text;
         }
 
         #region "Drag & Drop"
@@ -352,7 +238,7 @@ namespace OpenCoverRunnerForm
             }
         }
 
-        private static void OnDragDrop(object sender, DragEventArgs e)
+        private static void OnTargetDragDrop(object sender, DragEventArgs e)
         {
             var textbox = (TextBox)sender;
             string[] fileName = (string[])e.Data.GetData(DataFormats.FileDrop, false);
@@ -366,7 +252,7 @@ namespace OpenCoverRunnerForm
 
         private void txtTestTargetExePath_DragDrop(object sender, DragEventArgs e)
         {
-            OnDragDrop(sender, e);
+            OnTargetDragDrop(sender, e);
             txtOutputReportPath.Text = OutputPath;
         }
 
@@ -378,7 +264,7 @@ namespace OpenCoverRunnerForm
 
         private void txtUnitTestDllPath_DragDrop(object sender, DragEventArgs e)
         {
-            OnDragDrop(sender, e);            
+            OnTargetDragDrop(sender, e);            
         }
 
         private void txtTestTargetWebAppPath_DragEnter(object sender, DragEventArgs e)
@@ -388,7 +274,7 @@ namespace OpenCoverRunnerForm
 
         private void txtTestTargetWebAppPath_DragDrop(object sender, DragEventArgs e)
         {
-            OnDragDrop(sender, e);
+            OnTargetDragDrop(sender, e);
             txtOutputReportPath.Text = OutputPath;
         }
 
@@ -398,7 +284,6 @@ namespace OpenCoverRunnerForm
         private void tabControl_SelectedIndexChanged(object sender, EventArgs e)
         {
             txtOutputReportPath.Text = this.OutputPath;
-
         }
 
         private void txtOutputReportPath_TextChanged(object sender, EventArgs e)

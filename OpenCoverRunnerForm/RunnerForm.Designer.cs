@@ -41,6 +41,7 @@
             this.btnOpernCoverPath = new System.Windows.Forms.Button();
             this.label6 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
+            this.lblPrevReport = new System.Windows.Forms.Label();
             this.lblReportPath = new System.Windows.Forms.Label();
             this.txtOutputReportPath = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
@@ -58,7 +59,6 @@
             this.label10 = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.label7 = new System.Windows.Forms.Label();
-            this.lblPrevReport = new System.Windows.Forms.Label();
             this.grpSetting.SuspendLayout();
             this.tabControl.SuspendLayout();
             this.tabExePath.SuspendLayout();
@@ -76,6 +76,7 @@
             this.txtTestTargetExePath.Name = "txtTestTargetExePath";
             this.txtTestTargetExePath.Size = new System.Drawing.Size(789, 19);
             this.txtTestTargetExePath.TabIndex = 0;
+            this.txtTestTargetExePath.TextChanged += new System.EventHandler(this.txtTestTargetExePath_TextChanged);
             this.txtTestTargetExePath.DragDrop += new System.Windows.Forms.DragEventHandler(this.txtTestTargetExePath_DragDrop);
             this.txtTestTargetExePath.DragEnter += new System.Windows.Forms.DragEventHandler(this.txtTestTargetExePath_DragEnter);
             // 
@@ -208,6 +209,16 @@
             this.label5.Text = "テスト対象フォルダ配下に「OpenCoverResult」をフォルダ作成し、そこにレポートファイル「index.html」ができます。\r\n複数回「プログラム実行」" +
     "を行った場合、テスト結果(カバレッジ率)をマージします。最初から計測したい場合は「クリア」してください。";
             // 
+            // lblPrevReport
+            // 
+            this.lblPrevReport.AutoSize = true;
+            this.lblPrevReport.Font = new System.Drawing.Font("MS UI Gothic", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.lblPrevReport.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
+            this.lblPrevReport.Location = new System.Drawing.Point(35, 127);
+            this.lblPrevReport.Name = "lblPrevReport";
+            this.lblPrevReport.Size = new System.Drawing.Size(0, 12);
+            this.lblPrevReport.TabIndex = 4;
+            // 
             // lblReportPath
             // 
             this.lblReportPath.AutoSize = true;
@@ -337,6 +348,7 @@
             this.txtTestTargetWebAppPath.Name = "txtTestTargetWebAppPath";
             this.txtTestTargetWebAppPath.Size = new System.Drawing.Size(789, 19);
             this.txtTestTargetWebAppPath.TabIndex = 5;
+            this.txtTestTargetWebAppPath.TextChanged += new System.EventHandler(this.txtTestTargetWebAppPath_TextChanged);
             this.txtTestTargetWebAppPath.DragDrop += new System.Windows.Forms.DragEventHandler(this.txtTestTargetWebAppPath_DragDrop);
             this.txtTestTargetWebAppPath.DragEnter += new System.Windows.Forms.DragEventHandler(this.txtTestTargetWebAppPath_DragEnter);
             // 
@@ -406,15 +418,6 @@
             this.label7.TabIndex = 0;
             this.label7.Text = " ・テスト対象のプログラムを指定後、「プログラム起動」ボタンをクリックします。\r\n ・プログラムを終了すると、カバレッジのレポートを表示します(ブラウザを起動して" +
     "表示)。\r\n ・「OpenCover」と「ReportGenerator]を「NuGetパッケージの管理」からインストールしてください)。";
-            // 
-            // lblPrevReport
-            // 
-            this.lblPrevReport.AutoSize = true;
-            this.lblPrevReport.Font = new System.Drawing.Font("MS UI Gothic", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.lblPrevReport.Location = new System.Drawing.Point(35, 127);
-            this.lblPrevReport.Name = "lblPrevReport";
-            this.lblPrevReport.Size = new System.Drawing.Size(0, 12);
-            this.lblPrevReport.TabIndex = 4;
             // 
             // RunnerForm
             // 
