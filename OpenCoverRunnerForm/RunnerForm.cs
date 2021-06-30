@@ -35,7 +35,7 @@ namespace OpenCoverRunnerForm
         {
             get
             {
-                logic.tabSelectedIndex = tabControl.SelectedIndex;
+                logic.TargetType = tabControl.SelectedIndex == 0 ? TargetType.ExeApp: TargetType.WebApp;
                 return logic.OutputPath;
             }
         }
