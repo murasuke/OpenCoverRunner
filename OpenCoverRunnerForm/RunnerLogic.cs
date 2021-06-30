@@ -7,6 +7,11 @@ using System.Windows.Forms;
 
 namespace OpenCoverRunnerForm
 {
+    public enum TargetType
+    {
+        ExeApp = 0,
+        WebApp = 1,
+    }
     public class RunnerLogic
     {
         public RunnerLogic()
@@ -64,7 +69,7 @@ namespace OpenCoverRunnerForm
 
         public string MSTestPath { get; set; } = "";
 
-        public int tabSelectedIndex { get; set; } = 0;
+        public TargetType TargetType { get; set; } = 0;
         public string TestTargetExePath { get; set; } = "";
         public string TestTargetWebAppPath { get; set; } = "";
 
@@ -72,7 +77,7 @@ namespace OpenCoverRunnerForm
         {
             get
             {
-                if (tabSelectedIndex == 0)
+                if (TargetType == TargetType.ExeApp)
                 {
                     if (string.IsNullOrEmpty(TestTargetExePath)) return "";
                     var outputPath = Path.Combine(Path.GetDirectoryName(TestTargetExePath), "OpenCoverResult");
@@ -131,7 +136,7 @@ namespace OpenCoverRunnerForm
             if (noWindow)
             {
                 stdout = ps.StandardOutput.ReadToEnd().TrimEnd();
-                Debug.Write(ps.StandardError.ReadToEnd());
+                Console.Write(ps.StandardError.ReadToEnd());
             }
 
             ps.WaitForExit();
