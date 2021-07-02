@@ -121,26 +121,29 @@ namespace OpenCoverRunnerForm
             return vsTest86;
         }
 
-
-        public Tuple<int, string> ExecAndReadConsole(string path, string args, bool noWindow = true)
+    
+        public Tuple<int, string> ExecAndReadConsole(string path, string args, bool readConsole = true)
         {
             //Output.Text += $"{path} {args}\r\n\r\n";
-            ProcessStartInfo psInfo = new ProcessStartInfo(path, args);
-            psInfo.CreateNoWindow = noWindow;
-            psInfo.UseShellExecute = false;
-            psInfo.RedirectStandardOutput = noWindow; // 標準出力をリダイレクト
-            psInfo.RedirectStandardError = noWindow;
-            var ps = Process.Start(psInfo);
-
-            var stdout = "";
-            if (noWindow)
+            ProcessStartInfo psInfo = new ProcessStartInfo(path, args)
             {
-                stdout = ps.StandardOutput.ReadToEnd().TrimEnd();
-                Console.Write(ps.StandardError.ReadToEnd());
-            }
+                CreateNoWindow = readConsole,
+                UseShellExecute = false,
+                RedirectStandardOutput = readConsole, // 標準出力をリダイレクト
+                RedirectStandardInput = readConsole,
+            };
+ 
+            var ps = Process.Start(psInfo);
+            string output = "";
 
+            if (readConsole)
+            {
+                output = ps.StandardOutput.ReadToEnd().TrimEnd();
+            }
+            
+            Console.WriteLine($"output: \"{output}\"");
             ps.WaitForExit();
-            return new Tuple<int, string>(ps.ExitCode, stdout);
+            return new Tuple<int, string>(ps.ExitCode, output);
         }
 
         public string[] SearchInNugetPath(string exeName)
@@ -228,10 +231,9 @@ namespace OpenCoverRunnerForm
 
             if (ExecAndReadConsole(OpenCoverPath, execTarget, noWindow).Item1 == 0)
             {
-                if (ExecAndReadConsole(ReportGeneratorPath, GetReportGeneratorArgs(OutputPath, TestTargetExePath)).Item1 == 0)
+                if (ExecAndReadConsole(ReportGeneratorPath, GetReportGeneratorArgs(OutputPath, TestTargetExePath), noWindow).Item1 == 0)
                 {
-                    return true;
-   
+                    return true;   
                 }
             }
             return false;

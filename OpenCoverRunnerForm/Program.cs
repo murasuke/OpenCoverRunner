@@ -8,9 +8,6 @@ namespace OpenCoverRunnerForm
 {
     static class Program
     {
-        [System.Runtime.InteropServices.DllImport("kernel32.dll")] // この行を追加
-        private static extern bool AllocConsole();
-
         /// <summary>
         /// アプリケーションのメイン エントリ ポイントです。
         /// </summary>
@@ -32,6 +29,7 @@ namespace OpenCoverRunnerForm
             }
 
         }
+
 
         static int RunCoverage(string[] args)
         {
@@ -64,35 +62,28 @@ namespace OpenCoverRunnerForm
 
 
             var logic = new RunnerLogic();
-
-            
+            var exeArgs = "";
             if (Path.GetExtension(target).ToLower().Contains(".exe"))
             {
-                AllocConsole();
                 logic.TargetType = TargetType.ExeApp;
                 logic.TestTargetExePath = target;
-                deleteResult(logic);
-                var exeArgs = logic.GetOpenCoverExeArgs(logic.OutputPath, target);
-
-                if (logic.RunOpenCoverAndReport(exeArgs))
-                {
-                    if(!hideresult)
-                        Process.Start($@"{logic.OutputPath}\index.htm");
-                }
+                exeArgs = logic.GetOpenCoverExeArgs(logic.OutputPath, target);
             }
             else
             {
                 logic.TargetType = TargetType.WebApp;
                 logic.TestTargetWebAppPath = target;
-                deleteResult(logic);
-                var webArgs = logic.GetOpenCoverWebArgs(logic.OutputPath, target);
-                if (logic.RunOpenCoverAndReport(webArgs, false))
-                {
-                    if (!hideresult)
-                        Process.Start($@"{logic.OutputPath}\index.htm");
-                }
+                exeArgs = logic.GetOpenCoverWebArgs(logic.OutputPath, target);
             }
-          
+
+            deleteResult(logic);
+
+            if (logic.RunOpenCoverAndReport(exeArgs, false))
+            {
+                if (!hideresult)
+                    Process.Start($@"{logic.OutputPath}\index.htm");
+            }
+
             return 0;
         }
     }
