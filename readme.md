@@ -25,12 +25,12 @@
 
 ---
 
-絵に描いた餅を食べるため、久しぶりに腕をまくってツールを作りました。
+絵に描いた餅を食べるため、久しぶりに腕をまくってツールを作りました。CI／CDのような難しいセットアップは不要、誰でも簡単に始められます。
 
 ## 【[OpenCoverRunner](https://github.com/murasuke/OpenCoverRunner)】です
 
 
-* .NET Framework用のカバレッジ測定ツールです。
+* .NET Framework用のカバレッジ測定ツールです(「[OpenCover](https://github.com/OpenCover/opencover) 」「[ReportGenerator](https://github.com/danielpalme/ReportGenerator)」を利用）
 
 * `.exe`と`asp.net`のカバレッジを取得できます。
 
