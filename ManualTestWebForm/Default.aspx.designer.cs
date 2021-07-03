@@ -7,7 +7,7 @@
 // </自動生成>
 //------------------------------------------------------------------------------
 
-namespace OpenCoverWebForm
+namespace ManualTestWebForm
 {
 
 

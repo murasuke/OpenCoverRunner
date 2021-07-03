@@ -55,8 +55,6 @@
             this.txtTestTargetWebAppPath = new System.Windows.Forms.TextBox();
             this.btnRunWebApp = new System.Windows.Forms.Button();
             this.label11 = new System.Windows.Forms.Label();
-            this.Output = new System.Windows.Forms.TextBox();
-            this.label10 = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.label7 = new System.Windows.Forms.Label();
             this.grpSetting.SuspendLayout();
@@ -375,28 +373,6 @@
             this.label11.Text = "・IISExpressコンソールが起動します。portは「8080」です(app.configで変更できます)。\r\n・ブラウザでコンソールに表示されているURLを" +
     "開きテストします。\r\n・テスト終了後、コンソール画面に切り替えてから「q」キーを押すとIISExpressが終了し、レポートが表示されます。";
             // 
-            // Output
-            // 
-            this.Output.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.Output.Location = new System.Drawing.Point(16, 415);
-            this.Output.Multiline = true;
-            this.Output.Name = "Output";
-            this.Output.ReadOnly = true;
-            this.Output.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.Output.Size = new System.Drawing.Size(925, 101);
-            this.Output.TabIndex = 8;
-            // 
-            // label10
-            // 
-            this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(14, 401);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(46, 12);
-            this.label10.TabIndex = 4;
-            this.label10.Text = "Console";
-            // 
             // groupBox1
             // 
             this.groupBox1.Controls.Add(this.label7);
@@ -423,12 +399,10 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(957, 528);
+            this.ClientSize = new System.Drawing.Size(957, 407);
             this.Controls.Add(this.groupBox1);
-            this.Controls.Add(this.Output);
             this.Controls.Add(this.tabControl);
             this.Controls.Add(this.grpSetting);
-            this.Controls.Add(this.label10);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "RunnerForm";
             this.Text = "カバレッジ測定ツール(.NET Framework exe, asp.net)";
@@ -443,7 +417,6 @@
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
@@ -472,8 +445,6 @@
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.TextBox txtTestTargetWebAppPath;
         private System.Windows.Forms.Button btnRunWebApp;
-        private System.Windows.Forms.TextBox Output;
-        private System.Windows.Forms.Label label10;
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.Label label7;

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
 
-namespace ManualTestTarget
+namespace ManualTestExeForm
 {
     public partial class ManualTestForm : Form
     {
@@ -61,11 +61,6 @@ namespace ManualTestTarget
             }
 
             textBox3.Text = result.ToString();
-        }
-
-        private void ManualTestSample_Load(object sender, EventArgs e)
-        {
-
         }
     }
 }

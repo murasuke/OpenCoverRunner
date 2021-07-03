@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30225.117
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ManualTestTarget", "ManualTestTarget\ManualTestTarget.csproj", "{0370FA44-3AA9-4F5C-A30B-76C1A42945E8}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ManualTestExeForm", "ManualTestExeForm\ManualTestExeForm.csproj", "{0370FA44-3AA9-4F5C-A30B-76C1A42945E8}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenCoverRunnerForm", "OpenCoverRunnerForm\OpenCoverRunnerForm.csproj", "{63460486-F49E-410D-959E-1059745FC767}"
 EndProject
@@ -14,7 +14,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		readme.md = readme.md
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenCoverWebForm", "OpenCoverWebForm\OpenCoverWebForm.csproj", "{EFB72976-D055-498B-80B7-3A422532E14C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ManualTestWebForm", "ManualTestWebForm\ManualTestWebForm.csproj", "{EFB72976-D055-498B-80B7-3A422532E14C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

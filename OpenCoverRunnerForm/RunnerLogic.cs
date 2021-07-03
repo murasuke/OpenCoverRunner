@@ -14,10 +14,21 @@ namespace OpenCoverRunnerForm
     }
     public class RunnerLogic
     {
-        public RunnerLogic()
+        public RunnerLogic() : this(TargetType.ExeApp, "")
         {
-            MSTestPath = SearchVSTestPath();
+        }
 
+        public RunnerLogic(TargetType targetType, string targetPath)
+        {
+            this.TargetType = targetType;
+            if (this.TargetType == TargetType.ExeApp)
+            {
+                this.TestTargetExePath = targetPath;
+            }
+            else
+            {
+                this.TestTargetWebAppPath = targetPath;
+            }
 
             Configuration config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
             if (string.IsNullOrEmpty(OpenCoverPath))
@@ -42,6 +53,10 @@ namespace OpenCoverRunnerForm
                     config.Save();
                 }
             }
+
+            MSTestPath = SearchVSTestPath();
+
+            ConfigurationManager.RefreshSection("appSettings");
         }
 
         public readonly string NuGetPath = $@"{Environment.GetFolderPath(Environment.SpecialFolder.UserProfile)}\.nuget\packages";
@@ -100,7 +115,7 @@ namespace OpenCoverRunnerForm
                 var installerPath = Path.Combine(basePath, @"Microsoft Visual Studio\Installer\vswhere.exe");
                 if (File.Exists(installerPath))
                 {
-                    var result = ExecAndReadConsole(installerPath, " -latest -property installationPath");
+                    var result = ExecAndReadConsole(installerPath, " -latest -property installationPath", false);
                     if (result.Item1 == -0)
                     {
                         return Path.Combine(result.Item2, @"Common7\IDE\CommonExtensions\Microsoft\TestWindow\vstest.console.exe");
@@ -122,21 +137,20 @@ namespace OpenCoverRunnerForm
         }
 
     
-        public Tuple<int, string> ExecAndReadConsole(string path, string args, bool readConsole = true)
+        public Tuple<int, string> ExecAndReadConsole(string path, string args, bool showConsole)
         {
-            //Output.Text += $"{path} {args}\r\n\r\n";
             ProcessStartInfo psInfo = new ProcessStartInfo(path, args)
             {
-                CreateNoWindow = readConsole,
+                CreateNoWindow = !showConsole,
                 UseShellExecute = false,
-                RedirectStandardOutput = readConsole, // 標準出力をリダイレクト
-                RedirectStandardInput = readConsole,
+                RedirectStandardOutput = !showConsole,
+                RedirectStandardInput = !showConsole,
             };
  
             var ps = Process.Start(psInfo);
             string output = "";
 
-            if (readConsole)
+            if (!showConsole)
             {
                 output = ps.StandardOutput.ReadToEnd().TrimEnd();
             }
@@ -152,6 +166,18 @@ namespace OpenCoverRunnerForm
             return paths;
         }
 
+
+        public string GetOpenCoverArgs()
+        {
+            if (TargetType == TargetType.ExeApp)
+            {
+                return GetOpenCoverExeArgs(this.OutputPath, this.TestTargetExePath);
+            }
+            else
+            {
+                return GetOpenCoverWebArgs(this.OutputPath, this.TestTargetWebAppPath);
+            }
+        }
 
         public string GetOpenCoverExeArgs(string outputPath, string targetExe)
         {
@@ -171,12 +197,12 @@ namespace OpenCoverRunnerForm
             return args;
         }
 
-        public string GetReportGeneratorArgs(string outputPath, string testTarget)
+        public string GetReportGeneratorArgs(string outputPath, string classFilter)
         {
             var reports = $@"-reports:""{Path.Combine(outputPath, "results.xml")}""";
             var reportType = "-reporttypes:HtmlInline;";
-            var targetdir = $@"-targetdir:""{Path.Combine(outputPath, "")}""";
-            var classfilters = $@"-classfilters:""-{Path.GetFileNameWithoutExtension(testTarget)}.Properties.*""";
+            var targetdir = $@"-targetdir:""{outputPath}""";
+            var classfilters = string.IsNullOrEmpty(classFilter) ? "" : $@"-classfilters:""-{classFilter}""";
             var filefilters = "";// $@"-filefilters:""-*.Designer.cs;""";
 
             var args = $"{reports} {reportType} {targetdir} {classfilters} {filefilters}";
@@ -217,21 +243,25 @@ namespace OpenCoverRunnerForm
             return args;
         }
 
-        public bool IsFormApp()
-        {
-            return Application.OpenForms.Count > 0;
-        }
-
-        public bool RunOpenCoverAndReport(string execTarget, bool noWindow = true)
+        public bool RunOpenCoverAndReport(bool showConsole = true)
         {
             if (!Directory.Exists(OutputPath))
             {
                 Directory.CreateDirectory(OutputPath);
             }
 
-            if (ExecAndReadConsole(OpenCoverPath, execTarget, noWindow).Item1 == 0)
+            var openCoverArgs = GetOpenCoverArgs();
+            var excludeFilter = "";
+            if (this.TargetType == TargetType.ExeApp)
             {
-                if (ExecAndReadConsole(ReportGeneratorPath, GetReportGeneratorArgs(OutputPath, TestTargetExePath), noWindow).Item1 == 0)
+                excludeFilter = $"{ Path.GetFileNameWithoutExtension(TestTargetExePath) }.Properties.*";
+            }
+
+            var reportGenArgs = GetReportGeneratorArgs(OutputPath, excludeFilter);
+
+            if (ExecAndReadConsole(OpenCoverPath, openCoverArgs, showConsole).Item1 == 0)
+            {
+                if (ExecAndReadConsole(ReportGeneratorPath, reportGenArgs, showConsole).Item1 == 0)
                 {
                     return true;   
                 }
