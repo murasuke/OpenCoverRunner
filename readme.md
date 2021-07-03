@@ -64,7 +64,7 @@
 
 ### GUIを表示して実行する場合
 
-* 1. プログラムを起動sする。
+* 1. プログラムを起動する。
 
   ![OpenCoverRunner](./img/OpenCoverRunner.png)
 
