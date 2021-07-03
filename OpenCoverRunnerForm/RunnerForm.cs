@@ -42,7 +42,7 @@ namespace OpenCoverRunnerForm
 
         private void RunnerForm_Load(object sender, EventArgs e)
         {
-            ConfigurationManager.RefreshSection("appSettings");
+            
             txtOpernCoverPath.Text = OpenCoverPath;
             txtReportGenerator.Text = ReportGeneratorPath;
             txtTestTargetExePath.Text = ConfigurationManager.AppSettings["TestTargetExePath"];
@@ -112,6 +112,31 @@ namespace OpenCoverRunnerForm
             Cursor.Current = Cursors.Default;
         }
 
+        private void btnRunWebApp_Click(object sender, EventArgs e)
+        {
+            var target = txtTestTargetWebAppPath.Text;
+            if (string.IsNullOrEmpty(target) || !Directory.Exists(target))
+            {
+                return;
+            }
+
+            Configuration config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
+            config.AppSettings.Settings["TestTargetWebAppPath"].Value = target;
+            config.Save();
+
+            var args = GetOpenCoverWebArgs(OutputPath, target);
+            Cursor.Current = Cursors.WaitCursor;
+            if (RunOpenCoverAndReport(args))
+            {
+                var dialogResult = MessageBox.Show("生成したレポートファイルを開きますか？", "処理完了", MessageBoxButtons.YesNo);
+                if (dialogResult == DialogResult.Yes)
+                {
+                    Process.Start($@"{OutputPath}\index.htm");
+                }
+            }
+            Cursor.Current = Cursors.Default;
+        }
+
         private void btnRunTest_Click(object sender, EventArgs e)
         {
             var target = txtTestTargetExePath.Text;
@@ -132,36 +157,6 @@ namespace OpenCoverRunnerForm
 
             var args = GetMSTestArgs(OutputPath, MSTestPath, unitTest);
             Cursor.Current = Cursors.WaitCursor;
-            if (RunOpenCoverAndReport(args))
-            {
-                var dialogResult = MessageBox.Show("生成したレポートファイルを開きますか？", "処理完了", MessageBoxButtons.YesNo);
-                if (dialogResult == DialogResult.Yes)
-                {
-                    Process.Start($@"{OutputPath}\index.htm");
-                }
-            }
-            Cursor.Current = Cursors.Default;
-        }
-
-        private bool RunOpenCoverAndReport(string execTarget, bool noWindow = true)
-        {
-            return logic.RunOpenCoverAndReport(execTarget, noWindow);
-        }
-
-        private void btnRunWebApp_Click(object sender, EventArgs e)
-        {
-            var target = txtTestTargetWebAppPath.Text;
-            if (string.IsNullOrEmpty(target) || !Directory.Exists(target))
-            {
-                return;
-            }
-
-            Configuration config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
-            config.AppSettings.Settings["TestTargetWebAppPath"].Value = target;
-            config.Save();
-
-            var args = GetOpenCoverWebArgs(OutputPath, target);
-            Cursor.Current = Cursors.WaitCursor;
             if (RunOpenCoverAndReport(args, false))
             {
                 var dialogResult = MessageBox.Show("生成したレポートファイルを開きますか？", "処理完了", MessageBoxButtons.YesNo);
@@ -172,6 +167,13 @@ namespace OpenCoverRunnerForm
             }
             Cursor.Current = Cursors.Default;
         }
+
+        private bool RunOpenCoverAndReport(string execTarget, bool showConsole = true)
+        {
+            return logic.RunOpenCoverAndReport(showConsole);
+        }
+
+
 
 
         private void btnOpernCoverPath_Click(object sender, EventArgs e)
@@ -226,7 +228,7 @@ namespace OpenCoverRunnerForm
         }
 
         #region "Drag & Drop"
-        private static void OnDragEnter(DragEventArgs e)
+        private static void OnTargetDragEnter(DragEventArgs e)
         {
             if (e.Data.GetDataPresent(DataFormats.FileDrop))
             {
@@ -247,7 +249,7 @@ namespace OpenCoverRunnerForm
 
         private void txtTestTargetExePath_DragEnter(object sender, DragEventArgs e)
         {
-            OnDragEnter(e);
+            OnTargetDragEnter(e);
         }
 
         private void txtTestTargetExePath_DragDrop(object sender, DragEventArgs e)
@@ -259,7 +261,7 @@ namespace OpenCoverRunnerForm
 
         private void txtUnitTestDllPath_DragEnter(object sender, DragEventArgs e)
         {
-            OnDragEnter(e);
+            OnTargetDragEnter(e);
         }
 
         private void txtUnitTestDllPath_DragDrop(object sender, DragEventArgs e)
@@ -269,7 +271,7 @@ namespace OpenCoverRunnerForm
 
         private void txtTestTargetWebAppPath_DragEnter(object sender, DragEventArgs e)
         {
-            OnDragEnter(e);
+            OnTargetDragEnter(e);
         }
 
         private void txtTestTargetWebAppPath_DragDrop(object sender, DragEventArgs e)

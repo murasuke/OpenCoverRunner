@@ -56,11 +56,13 @@ NuGetでインストールします。
 
 ## ソリューション構成
 
-* OpenCoverRunner   ・・・ソリューション
-  * OpenCoverRunnerForm   ・・・OpenCoverRunner本体
-  * ManualTestTarget  ・・・動作確認用サンプルプログラム(Windows フォーム)(手動テスト対象)
-  * OpenCoverWebForm　・・・動作確認用サンプルプログラム(ASP.NET Webフォーム)
-  * UnitTestProject　・・・ManualTestTargetのユニットテスト。Logicのみテストを行う(Formは対象外)
+| ソリューション名 |説明 |
+|-----------|------------|
+| OpenCoverRunner | OpenCoverRunner本体。引数をつけなければFormを表示。引数にプログラムパスもしくは、WebAppフォルダを渡せば、フォームを起動せずに実行。|
+| ManualTestExeForm | 動作確認用サンプルプログラム(Windows フォーム)(手動テスト対象) |
+| ManualTestWebForm | 動作確認用サンプルプログラム(ASP.NET Webフォーム) |
+| UnitTestProject | ManualTestExeFormのユニットテスト。Logicのみテストを行う(Formは対象外) |
+
 
 
 ## 補足説明・・・コマンドライン引数について
@@ -69,23 +71,30 @@ NuGetでインストールします。
 |-----------|------------|------------|
 | 引数なし | |フォームを起動し画面から操作する |
 | 最初の引数| <対象プログラム> | 引数で与えられたプログラムを起動する。拡張子がexeの場合、プログラムを起動。フォルダの場合、IISExpressを起動。終了後レポートを生成|
-| 2つ目以降|-hideresult | 実行後、レポートをブラウザで開かない（未指定の場合、ブラウザでレポートを開きます） |
-|  2つ目以降| -preserveresult |指定した場合、前回のカバレッジとマージします。未指定の場合、今回操作した分のカバレッジのみになります。|
+| 2つ目以降| -hideresult | 実行後、レポートをブラウザで開かない（未指定の場合、ブラウザでレポートを開きます） |
+|  2つ目以降| -mergeresult |指定した場合、前回のカバレッジとマージします。未指定の場合、今回操作した分のカバレッジのみになります。|
 
-### OpenCover（参考情報）
+* 例
+
+  > OpenCoverRunnerForm.exe d:\target.exe
+
+  > OpenCoverRunnerForm.exe d:\tagetWebApp -hideresult  -mergeresul
+
+
+### OpenCoverの主要な引数（参考情報）
   
 | 引数 | 説明 | 例 |
 |-----------|------------|:------------|
-| -target:<ターゲットパス>  | カバレッジ計測対象のexeパス |-target:"C:\TestTarget\bin\Debug\TestTarget.exe" |
+|-target:<ターゲットパス>  | カバレッジ計測対象のexeパス |-target:"C:\TestTarget\bin\Debug\TestTarget.exe" |
 |-output:<出力ファイル(xml)>|計測結果を保存するパス(xml)|-output:"C:\TestTarget\bin\Debug\results.xml" |
 |-register[:user]|プロファイラへの登録で利用するユーザを指定。管理者権限がない場合、userを指定すれば良いようです|-register:user|
 
-### ReportGenerator（参考情報）
+### ReportGeneratorの主要な引数（参考情報）
 
 | 引数 | 説明 | 例 |
 |-----------|------------|------------|
 |-reports:<OpenCover出力ファイル(xml)>  | OpenCoverで出力した測定結果ファイル(xml) |-reports:"C:\TestTarget\bin\Debug\results.xml" |
-|--reporttypes:<出力タイプ>|Html,HtmlInline,MarkdownSummaryなど選択できます|-reporttypes:HtmlInline; |
+|-reporttypes:<出力タイプ>|Html,HtmlInline,MarkdownSummaryなど選択できます|-reporttypes:HtmlInline; |
 |-targetdir:<出力先>|レポートファイル出力先|-targetdir:C:\TestTarget\bin\Debug\|
 
 
