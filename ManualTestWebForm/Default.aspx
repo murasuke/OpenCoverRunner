@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="Default.aspx.cs" Inherits="OpenCoverWebForm.WebForm1" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="Default.aspx.cs" Inherits="ManualTestWebForm.WebForm1" %>
 
 <!DOCTYPE html>
 
@@ -29,7 +29,7 @@
                     <asp:TextBox ID="TextBox2" runat="server" TextMode="Number" class="auto-style1"></asp:TextBox></td>
                 <td>=</td>
                 <td>
-                    <asp:TextBox ID="TextBox3" runat="server" ReadOnly="True" TextMode="Number" class="auto-style1"></asp:TextBox></td>
+                    <asp:TextBox ID="TextBox3" runat="server" ReadOnly="True" TextMode="Number" class="auto-style1" BackColor="#CCCCCC"></asp:TextBox></td>
                 <td>
                     <asp:Button ID="Button1" runat="server" OnClick="Button1_Click" Text="計 算" Width="64px" />
                    </td>

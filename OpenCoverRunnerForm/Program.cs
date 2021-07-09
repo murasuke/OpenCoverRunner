@@ -8,9 +8,6 @@ namespace OpenCoverRunnerForm
 {
     static class Program
     {
-        [System.Runtime.InteropServices.DllImport("kernel32.dll")] // この行を追加
-        private static extern bool AllocConsole();
-
         /// <summary>
         /// アプリケーションのメイン エントリ ポイントです。
         /// </summary>
@@ -30,70 +27,45 @@ namespace OpenCoverRunnerForm
                 // show console
                 return RunCoverage(args);
             }
-
         }
+
 
         static int RunCoverage(string[] args)
         {
             var target = args[0];
             var hideresult = false;
             var argSet = new HashSet<string>();
-            for(var i = 1; i < args.Length; i++)
+            for (var i = 1; i < args.Length; i++)
             {
                 argSet.Add(args[i]);
             }
 
-            if (argSet.Contains("-hideresult"))
+            hideresult = argSet.Contains("-hideresult");
+
+            TargetType targetType = Path.GetExtension(target).ToLower().Contains(".exe") ? TargetType.ExeApp : TargetType.WebApp;
+
+            var logic = new RunnerLogic(targetType, target);
+
+            ClearPreviousResult(logic, argSet.Contains("-mergeresult"));
+
+            if (logic.RunOpenCoverAndReport(false))
             {
-                hideresult = true;
+                if (!hideresult)
+                    Process.Start($@"{logic.OutputPath}\index.htm");
             }
 
-
-          
-            Action<RunnerLogic> deleteResult = (e) =>
-            {
-                if (!argSet.Contains("-preserveresult"))
-                {
-                    if (Directory.Exists(e.OutputPath))
-                    {
-                        Directory.Delete(e.OutputPath, true);
-                    }
-                }
-            };
-
-
-
-            var logic = new RunnerLogic();
-
-            
-            if (Path.GetExtension(target).ToLower().Contains(".exe"))
-            {
-                AllocConsole();
-                logic.TargetType = TargetType.ExeApp;
-                logic.TestTargetExePath = target;
-                deleteResult(logic);
-                var exeArgs = logic.GetOpenCoverExeArgs(logic.OutputPath, target);
-
-                if (logic.RunOpenCoverAndReport(exeArgs))
-                {
-                    if(!hideresult)
-                        Process.Start($@"{logic.OutputPath}\index.htm");
-                }
-            }
-            else
-            {
-                logic.TargetType = TargetType.WebApp;
-                logic.TestTargetWebAppPath = target;
-                deleteResult(logic);
-                var webArgs = logic.GetOpenCoverWebArgs(logic.OutputPath, target);
-                if (logic.RunOpenCoverAndReport(webArgs, false))
-                {
-                    if (!hideresult)
-                        Process.Start($@"{logic.OutputPath}\index.htm");
-                }
-            }
-          
             return 0;
+        }
+
+        private static void ClearPreviousResult(RunnerLogic e, bool preserve)
+        {
+            if (!preserve)
+            {
+                if (Directory.Exists(e.OutputPath))
+                {
+                    Directory.Delete(e.OutputPath, true);
+                }
+            }
         }
     }
 }

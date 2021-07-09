@@ -1,4 +1,4 @@
-﻿using ManualTestTarget;
+﻿using ManualTestExeForm;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace UnitTestProject

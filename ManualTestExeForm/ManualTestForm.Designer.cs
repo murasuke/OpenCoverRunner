@@ -1,4 +1,4 @@
-﻿namespace ManualTestTarget
+﻿namespace ManualTestExeForm
 {
     partial class ManualTestForm
     {
@@ -151,7 +151,7 @@
             this.textBox3.Size = new System.Drawing.Size(159, 23);
             this.textBox3.TabIndex = 5;
             // 
-            // ManualTestSample
+            // ManualTestForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -164,9 +164,8 @@
             this.Controls.Add(this.button1);
             this.Font = new System.Drawing.Font("MS UI Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.Margin = new System.Windows.Forms.Padding(4);
-            this.Name = "ManualTestSample";
+            this.Name = "ManualTestForm";
             this.Text = "テスト対象サンプルフォーム";
-            this.Load += new System.EventHandler(this.ManualTestSample_Load);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.ResumeLayout(false);

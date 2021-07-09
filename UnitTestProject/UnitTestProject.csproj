@@ -57,9 +57,9 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ManualTestTarget\ManualTestTarget.csproj">
+    <ProjectReference Include="..\ManualTestExeForm\ManualTestExeForm.csproj">
       <Project>{0370fa44-3aa9-4f5c-a30b-76c1a42945e8}</Project>
-      <Name>ManualTestTarget</Name>
+      <Name>ManualTestExeForm</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />
