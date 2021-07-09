@@ -145,6 +145,7 @@ namespace OpenCoverRunnerForm
                 UseShellExecute = false,
                 RedirectStandardOutput = !showConsole,
                 RedirectStandardInput = !showConsole,
+                WorkingDirectory = Path.GetDirectoryName(path),
             };
  
             var ps = Process.Start(psInfo);
@@ -181,8 +182,12 @@ namespace OpenCoverRunnerForm
 
         public string GetOpenCoverExeArgs(string outputPath, string targetExe)
         {
+            var exeAndArgs = targetExe.Split(' ', '\t');
+            var exeArgs = exeAndArgs.Where( (_, index) => index != 0);
+
             var outputFile = Path.Combine(outputPath, "results.xml");
-            var target = $"-target:\"{targetExe}\"";
+            var target = $"-target:\"{exeAndArgs[0]}\"";
+            var targetargs = exeAndArgs.Length == 0 ? "" : $@"-targetargs:""{string.Join(" ", exeArgs)}""";
             var output = $"-output:\"{outputFile}\"";
             var etcArgs = "-mergeoutput -register:user";
 
@@ -191,7 +196,7 @@ namespace OpenCoverRunnerForm
                 Directory.CreateDirectory(OutputPath);
             }
 
-            var args = $"{target} {output} {etcArgs}";
+            var args = $"{target} {targetargs} {output} {etcArgs}";
 
             Debug.WriteLine(args);
             return args;
@@ -257,10 +262,10 @@ namespace OpenCoverRunnerForm
                 excludeFilter = $"{ Path.GetFileNameWithoutExtension(TestTargetExePath) }.Properties.*";
             }
 
-            var reportGenArgs = GetReportGeneratorArgs(OutputPath, excludeFilter);
 
             if (ExecAndReadConsole(OpenCoverPath, openCoverArgs, showConsole).Item1 == 0)
             {
+                   var reportGenArgs = GetReportGeneratorArgs(OutputPath, excludeFilter);
                 if (ExecAndReadConsole(ReportGeneratorPath, reportGenArgs, showConsole).Item1 == 0)
                 {
                     return true;   

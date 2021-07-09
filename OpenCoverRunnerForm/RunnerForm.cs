@@ -90,7 +90,8 @@ namespace OpenCoverRunnerForm
         private void btnRunProgram_Click(object sender, EventArgs e)
         {
             var target = txtTestTargetExePath.Text;
-            if (string.IsNullOrEmpty(target) || !File.Exists(target))
+            var exePath = target.Split(' ', '\t');
+            if (target.Length > 9 && string.IsNullOrEmpty(exePath[0]) || !File.Exists(exePath[0]))
             {
                 return;
             }
