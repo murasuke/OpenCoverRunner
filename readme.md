@@ -151,4 +151,8 @@ NuGetでインストールします。
 
 ## その他
 
+* pdbファイルがexeと同じ場所に無くても、カバレッジ測定ができるように対応
+
+  * IMAGE_DIRECTORY_ENTRY_DEBUGからexeに埋め込まれたpdbファイルのパスを取得するように対応
+
 * -historydir:history を指定すると、過去との比較ができる？要確認

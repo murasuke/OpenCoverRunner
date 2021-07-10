@@ -3,7 +3,6 @@ using System.Configuration;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Windows.Forms;
 
 namespace OpenCoverRunnerForm
 {
@@ -61,7 +60,7 @@ namespace OpenCoverRunnerForm
 
         public readonly string NuGetPath = $@"{Environment.GetFolderPath(Environment.SpecialFolder.UserProfile)}\.nuget\packages";
 
-        public string OpenCoverPath { get => ConfigurationManager.AppSettings["OpenCoverPath"]; } 
+        public string OpenCoverPath { get => ConfigurationManager.AppSettings["OpenCoverPath"]; }
 
         public string ReportGeneratorPath { get => ConfigurationManager.AppSettings["ReportGeneratorPath"]; }
 
@@ -136,7 +135,7 @@ namespace OpenCoverRunnerForm
             return vsTest86;
         }
 
-    
+
         public Tuple<int, string> ExecAndReadConsole(string path, string args, bool showConsole)
         {
             ProcessStartInfo psInfo = new ProcessStartInfo(path, args)
@@ -147,7 +146,7 @@ namespace OpenCoverRunnerForm
                 RedirectStandardInput = !showConsole,
                 WorkingDirectory = Path.GetDirectoryName(path),
             };
- 
+
             var ps = Process.Start(psInfo);
             string output = "";
 
@@ -155,7 +154,7 @@ namespace OpenCoverRunnerForm
             {
                 output = ps.StandardOutput.ReadToEnd().TrimEnd();
             }
-            
+
             Console.WriteLine($"output: \"{output}\"");
             ps.WaitForExit();
             return new Tuple<int, string>(ps.ExitCode, output);
@@ -183,11 +182,15 @@ namespace OpenCoverRunnerForm
         public string GetOpenCoverExeArgs(string outputPath, string targetExe)
         {
             var exeAndArgs = targetExe.Split(' ', '\t');
-            var exeArgs = exeAndArgs.Where( (_, index) => index != 0);
+            var exeArgs = exeAndArgs.Where((_, index) => index != 0);
+            var pdbPath = Win32API.GetModuleEmbeddedPdbPath(exeAndArgs[0]);
+         
 
             var outputFile = Path.Combine(outputPath, "results.xml");
             var target = $"-target:\"{exeAndArgs[0]}\"";
             var targetargs = exeAndArgs.Length == 0 ? "" : $@"-targetargs:""{string.Join(" ", exeArgs)}""";
+            var searchdirs = "";
+            if (pdbPath != "") searchdirs = $@"-searchdirs:""{Path.GetDirectoryName(pdbPath)}""";
             var output = $"-output:\"{outputFile}\"";
             var etcArgs = "-mergeoutput -register:user";
 
@@ -196,11 +199,12 @@ namespace OpenCoverRunnerForm
                 Directory.CreateDirectory(OutputPath);
             }
 
-            var args = $"{target} {targetargs} {output} {etcArgs}";
+            var args = $"{target} {targetargs} {output} {searchdirs} {etcArgs}";
 
             Debug.WriteLine(args);
             return args;
         }
+
 
         public string GetReportGeneratorArgs(string outputPath, string classFilter)
         {
