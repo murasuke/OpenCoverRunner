@@ -28,6 +28,7 @@ namespace UnitTestProject
         public void TestDiv()
         {
             Assert.AreEqual(CalcLogic.Div(1, 2), 0.5M);
+            //Assert.AreEqual(CalcLogic.Div(1, 0), 0M);
         }
     }
 }
