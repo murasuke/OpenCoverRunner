@@ -186,7 +186,7 @@ namespace OpenCoverRunnerForm
             var pdbPath = Win32API.GetModuleEmbeddedPdbPath(exeAndArgs[0]);
          
 
-            var outputFile = Path.Combine(outputPath, "results.xml");
+            var outputFile = Path.Combine(outputPath, "coverageReport.xml");
             var target = $"-target:\"{exeAndArgs[0]}\"";
             var targetargs = exeAndArgs.Length == 0 ? "" : $@"-targetargs:""{string.Join(" ", exeArgs)}""";
             var searchdirs = "";
@@ -208,7 +208,7 @@ namespace OpenCoverRunnerForm
 
         public string GetReportGeneratorArgs(string outputPath, string classFilter)
         {
-            var reports = $@"-reports:""{Path.Combine(outputPath, "results.xml")}""";
+            var reports = $@"-reports:""{Path.Combine(outputPath, "coverageReport.xml")}""";
             var reportType = "-reporttypes:HtmlInline;";
             var targetdir = $@"-targetdir:""{outputPath}""";
             var classfilters = string.IsNullOrEmpty(classFilter) ? "" : $@"-classfilters:""-{classFilter}""";
@@ -223,7 +223,7 @@ namespace OpenCoverRunnerForm
 
         public string GetMSTestArgs(string outputPath, string msTestPath, string unitTestPath)
         {
-            var outputFile = Path.Combine(outputPath, "results.xml");
+            var outputFile = Path.Combine(outputPath, "coverageReport.xml");
             var target = $@"-target:""{msTestPath}""";
             var targetargs = $@"-targetargs:""{unitTestPath}""";
             var output = $@"-output:""{outputFile}""";
@@ -239,7 +239,7 @@ namespace OpenCoverRunnerForm
         {
             var iisExp = @"C:\Program Files\IIS Express\iisexpress.exe";
             var webAppArgs = $@"/path:{targetWebApp} /port:""{IISExpressPort}""";
-            var outputFile = Path.Combine(outputPath, "results.xml");
+            var outputFile = Path.Combine(outputPath, "coverageReport.xml");
             var target = $@"-target:""{iisExp}""";
             var searchdirs = $@"-searchdirs:""{targetWebApp}\bin""";
             var targetargs = $@"-targetargs:""{webAppArgs}""";

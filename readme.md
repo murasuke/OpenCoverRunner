@@ -136,14 +136,14 @@ NuGetでインストールします。
 | 引数 | 説明 | 例 |
 |-----------|------------|:------------|
 |-target:<ターゲットパス>  | カバレッジ計測対象のexeパス |-target:"C:\TestTarget\bin\Debug\TestTarget.exe" |
-|-output:<出力ファイル(xml)>|計測結果を保存するパス(xml)|-output:"C:\TestTarget\bin\Debug\results.xml" |
+|-output:<出力ファイル(xml)>|計測結果を保存するパス(xml)|-output:"C:\TestTarget\bin\Debug\coverageReport.xmll" |
 |-register[:user]|プロファイラへの登録で利用するユーザを指定。管理者権限がない場合、userを指定すれば良いようです|-register:user|
 
 ### ReportGeneratorの主要な引数（参考情報）
 
 | 引数 | 説明 | 例 |
 |-----------|------------|------------|
-|-reports:<OpenCover出力ファイル(xml)>  | OpenCoverで出力した測定結果ファイル(xml) |-reports:"C:\TestTarget\bin\Debug\results.xml" |
+|-reports:<OpenCover出力ファイル(xml)>  | OpenCoverで出力した測定結果ファイル(xml) |-reports:"C:\TestTarget\bin\Debug\coverageReport.xml" |
 |-reporttypes:<出力タイプ>|Html,HtmlInline,MarkdownSummaryなど選択できます|-reporttypes:HtmlInline; |
 |-targetdir:<出力先>|レポートファイル出力先|-targetdir:C:\TestTarget\bin\Debug\|
 

@@ -291,7 +291,7 @@ namespace OpenCoverRunnerForm
 
         private void txtOutputReportPath_TextChanged(object sender, EventArgs e)
         {
-            if (File.Exists(Path.Combine(this.OutputPath, "results.xml")))
+            if (File.Exists(Path.Combine(this.OutputPath, "coverageReport.xml")))
             {
                 lblPrevReport.Text = "【前回レポート有り】";
             }
