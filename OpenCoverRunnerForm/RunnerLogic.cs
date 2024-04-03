@@ -252,14 +252,14 @@ namespace OpenCoverRunnerForm
             return args;
         }
 
-        public bool RunOpenCoverAndReport(bool showConsole = true)
+        public bool RunOpenCoverAndReport(string execTarget = null, bool showConsole = true)
         {
             if (!Directory.Exists(OutputPath))
             {
                 Directory.CreateDirectory(OutputPath);
             }
 
-            var openCoverArgs = GetOpenCoverArgs();
+            var openCoverArgs = execTarget?? GetOpenCoverArgs();
             var excludeFilter = "";
             if (this.TargetType == TargetType.ExeApp)
             {

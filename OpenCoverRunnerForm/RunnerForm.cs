@@ -46,6 +46,7 @@ namespace OpenCoverRunnerForm
             txtOpernCoverPath.Text = OpenCoverPath;
             txtReportGenerator.Text = ReportGeneratorPath;
             txtTestTargetExePath.Text = ConfigurationManager.AppSettings["TestTargetExePath"];
+            txtUnitTestDllPath.Text = ConfigurationManager.AppSettings["UnitTestDllPath"];
             txtTestTargetWebAppPath.Text = ConfigurationManager.AppSettings["TestTargetWebAppPath"];
             txtOutputReportPath.Text = OutputPath;
         }
@@ -99,10 +100,9 @@ namespace OpenCoverRunnerForm
             Configuration config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
             config.AppSettings.Settings["TestTargetExePath"].Value = target;
             config.Save();
-
             var args = GetOpenCoverExeArgs(OutputPath, target);
             Cursor.Current = Cursors.WaitCursor;
-            if (RunOpenCoverAndReport(args) )
+            if (RunOpenCoverAndReport(null) )
             {
                 var dialogResult = MessageBox.Show("生成したレポートファイルを開きますか？", "処理完了", MessageBoxButtons.YesNo);
                 if (dialogResult == DialogResult.Yes)
@@ -124,10 +124,9 @@ namespace OpenCoverRunnerForm
             Configuration config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
             config.AppSettings.Settings["TestTargetWebAppPath"].Value = target;
             config.Save();
-
             var args = GetOpenCoverWebArgs(OutputPath, target);
             Cursor.Current = Cursors.WaitCursor;
-            if (RunOpenCoverAndReport(args))
+            if (RunOpenCoverAndReport(null))
             {
                 var dialogResult = MessageBox.Show("生成したレポートファイルを開きますか？", "処理完了", MessageBoxButtons.YesNo);
                 if (dialogResult == DialogResult.Yes)
@@ -153,7 +152,7 @@ namespace OpenCoverRunnerForm
             }
 
             Configuration config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
-            config.AppSettings.Settings["UnitTestDllPath"].Value = target;
+            config.AppSettings.Settings["UnitTestDllPath"].Value = unitTest;
             config.Save();
 
             var args = GetMSTestArgs(OutputPath, MSTestPath, unitTest);
@@ -171,7 +170,7 @@ namespace OpenCoverRunnerForm
 
         private bool RunOpenCoverAndReport(string execTarget, bool showConsole = true)
         {
-            return logic.RunOpenCoverAndReport(showConsole);
+            return logic.RunOpenCoverAndReport(execTarget, showConsole);
         }
 
 

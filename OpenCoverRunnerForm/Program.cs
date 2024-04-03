@@ -48,7 +48,7 @@ namespace OpenCoverRunnerForm
 
             ClearPreviousResult(logic, argSet.Contains("-mergeresult"));
 
-            if (logic.RunOpenCoverAndReport(false))
+            if (logic.RunOpenCoverAndReport(null, false))
             {
                 if (!hideresult)
                     Process.Start($@"{logic.OutputPath}\index.htm");
